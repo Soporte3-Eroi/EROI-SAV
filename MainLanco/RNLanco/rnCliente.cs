@@ -96,7 +96,7 @@ namespace MainLanco.Conexion
             return true;
         }
 
-        public bool registroObra(SAVObra item)
+        public int registroObra(SAVObra item)
         {
             try
             {
@@ -262,12 +262,13 @@ namespace MainLanco.Conexion
                     ServEsp = item.ServEsp,
                     SerieF = item.SerieF
                 };
-                bool result = agregaObra(obra);
+                int result = 0;
+                result = agregaObra(obra);
 
-                if (!result)
-                    return false;
+                if (result == 0)
+                    return 0;
 
-                return true;
+                return 1;
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -275,12 +276,12 @@ namespace MainLanco.Conexion
                 {
                     foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
+                        Trace.TraceInformation("Property2: {0} Error: {1}",
                             validationError.PropertyName,   
                             validationError.ErrorMessage);
                     }
                 }
-                return false;
+                return 0;
             }
             
         }

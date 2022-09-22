@@ -22,12 +22,21 @@ namespace MainLanco.Utilerias
         }
         public DateTime? convHoraTiempo2(dynamic fecha)
         {
-            Console.WriteLine("fecha " + fecha);
+            //Console.WriteLine("fecha " + fecha);
 
             DateTime? d;
             DateTime? fechafor;
             DateTime Year;
             int year = 0;
+            if (fecha == "0000-00-00")
+            {
+                d = null;
+                fechafor = d;
+                //Console.WriteLine("hora2 " + fechafor);
+
+                return fechafor;
+            }
+
             if (fecha != "0000-00-00 00:00:00")
             {
                 Year = Convert.ToDateTime(fecha);
@@ -38,7 +47,7 @@ namespace MainLanco.Utilerias
             {
                 d = null;
                 fechafor = d;
-                Console.WriteLine("hora2 " + fechafor);
+                //Console.WriteLine("hora2 " + fechafor);
 
                 return fechafor;
             }
@@ -50,13 +59,13 @@ namespace MainLanco.Utilerias
         }
         public DateTime convHoraTiempo3(dynamic fecha)
         {
-            Console.WriteLine("hora3 " + fecha);
+            //Console.WriteLine("hora3 " + fecha);
 
             //DateTime val = Convert.ToDateTime(fecha);
             if (fecha == "0000-00-00 00:00:00")
             {
                 DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00");
-                Console.WriteLine("hora4 " + fe);
+                //Console.WriteLine("hora4 " + fe);
 
                 return fe;
             }

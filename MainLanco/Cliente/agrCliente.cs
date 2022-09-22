@@ -109,7 +109,7 @@ namespace MainLanco.Conexion
             return true;
         }
 
-        public bool agregaObra(SAVObra item)
+        public int agregaObra(SAVObra item)
         {
             try
             {
@@ -118,16 +118,29 @@ namespace MainLanco.Conexion
 
                 if (obra == null)
                 {
-                    var idObra = db.SAVFolio.First();
-                    idObra.Obra = idObra.Obra + 1;
-
-                    db.SAVObra.Add(item);
-                    int ex = db.SaveChanges();
-                    if (ex != 0)
+                        var idObra = db.SAVFolio.First();
+                        idObra.Obra = idObra.Obra + 1;
+                    try
                     {
-                        return true;
+                        db.SAVObra.Add(item);
+
+                        db.SaveChanges();
+
+                        return 1;
                     }
-                    return false;
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property2: {0} Error: {1}",
+                                    validationError.PropertyName,
+                                    validationError.ErrorMessage);
+                            }
+                        }
+                        return 0;
+                    }
                 }
 
                 dynamic response = JsonConvert.SerializeObject(obra);
@@ -294,9 +307,10 @@ namespace MainLanco.Conexion
                 obra.ServEsp = item.ServEsp;
                 obra.SerieF = item.SerieF;
 
-                db.SaveChanges();
+                int num = db.SaveChanges();
 
-                return false;
+                Console.WriteLine("savechanges: " + num);
+                return 2;
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -304,12 +318,12 @@ namespace MainLanco.Conexion
                 {
                     foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
+                        Trace.TraceInformation("Property3: {0} Error: {1}",
                             validationError.PropertyName,
                             validationError.ErrorMessage);
                     }
                 }
-                return false;
+                return 0;
             }
         }
     }

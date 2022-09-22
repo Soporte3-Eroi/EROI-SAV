@@ -4,6 +4,8 @@ using MainLanco.Utilerias;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -274,7 +276,7 @@ namespace MainLanco.eRoi
                             CP = value.CP,
                             Ciudad = value.Ciudad,
                             Estado = value.Estado,
-                            Pais = value.Pais,
+                            Pais = value.Pais == "" ? "NA" : value.Pais,
                             Telefono = value.Telefono,
                             EncargadoObra = value.EncargadoObra,
                             EncargadoObraTel = value.EncargadoObraTel,
@@ -292,8 +294,8 @@ namespace MainLanco.eRoi
                             Cliente = value.Cliente, // == null ? "nan" : value.Cliente
                             ClienteNombre = value.ClienteNombre,
                             NumCopias = Convert.ToInt16(value.NumCopias),
-                            FechaAlta = Alta,
-                            FechaAltaHora = Alta,
+                            FechaAlta = utileria.convHoraTiempo2(value.FechaAlta),
+                            FechaAltaHora = utileria.convHoraTiempo2(value.FechaAltaHora),
                             Capturo = value.Capturo,
                             CapturoCambio = value.CapturoCambio,
                             UltimoCambio = utileria.convHoraTiempo2(value.UltimoCambio),
@@ -306,7 +308,7 @@ namespace MainLanco.eRoi
                             Giro = value.Giro,
                             Zona = value.Zona,
                             Familia = value.Familia,
-                            Delegacion = value.Delegacion == null ? "nan" : value.Delegacion,
+                            Delegacion = value.Delegacion, // == null ? "nan" : value.Delegacion
                             Descuento = Convert.ToDecimal(value.Descuento),
                             Activa = utileria.convBoolStr(value.Activa),
                             UltimaRemision = utileria.convHoraTiempo2(value.UltimaRemision),
@@ -422,7 +424,7 @@ namespace MainLanco.eRoi
                             OCObservaciones = value.OCObservaciones,
                             FormadePago = value.FormadePago,
                             UsoCFDI = value.UsoCFDI,
-                            AuxMP = "NAN",
+                            AuxMP = "NA",
                             ServEspSecuencia = Convert.ToInt32(value.ServEspSecuencia),
                             ServEsp = value.ServEsp,
                             SerieF = value.SerieF
@@ -435,7 +437,7 @@ namespace MainLanco.eRoi
                         var item = JsonConvert.DeserializeObject<SAVObra>(json);
 
                         Business n = new Business();
-                        bool resp = n.registroObra(item);
+                        int resp = n.registroObra(item);
 
                         // Actualiza en Eroi
                         var res = new
@@ -449,7 +451,7 @@ namespace MainLanco.eRoi
                         Logger logger = new Logger();
                         logger.Log("ObraActualizado" + response);
 
-                        if (resp)
+                        if (resp == 1)
                         {
 
                             Console.WriteLine("Obra registrada en DB");
@@ -459,7 +461,7 @@ namespace MainLanco.eRoi
 
                             Console.WriteLine("Obra registrada en eROI");
                         }
-                        else
+                        else if (resp == 2)
                         {
                             Console.WriteLine("Obra actualizada en DB");
                             Console.WriteLine("------------------------");
@@ -468,6 +470,13 @@ namespace MainLanco.eRoi
 
                             Console.WriteLine("Obra actualizado en eROI");
                         }
+                        else
+                        {
+                            Console.WriteLine("No se registro/actualizo en DB");
+                            Console.WriteLine("------------------------");
+
+                            Console.WriteLine("No se registro/actualizo en eROI");
+                        }
                     }
                     catch (Exception e)
                     {
@@ -475,11 +484,9 @@ namespace MainLanco.eRoi
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //Logger logger = new Logger();
-                //logger.Log("Error " + ex.Message);
-                Console.WriteLine("Error " + ex.Message);
+                Console.WriteLine("Exception: " + e.Message);
             }
             
         }
