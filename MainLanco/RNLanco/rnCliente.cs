@@ -1,4 +1,6 @@
 ﻿using DatosLAnco;
+using MainLanco.Utilerias;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -11,91 +13,137 @@ namespace MainLanco.Conexion
 {
     public partial class Business
     {
-        public async Task<bool> registroCliente(SAVCliente item)
+        public int agregaCliente(SAVCliente item)
         {
-            var cliente = new SAVCliente()
+            var cliente = db.SAVCliente.SingleOrDefault(c => c.Clave == item.Clave);
+
+            if (cliente != null)
             {
-                Clave = item.Clave,
-                Empresa = item.Empresa,
-                Contacto = item.Contacto,
-                Direccion = item.Direccion,
-                Colonia = item.Colonia,
-                CP = item.CP,
-                Ciudad = item.Ciudad,
-                Estado = item.Estado,
-                Pais = item.Pais,
-                TelefonoOficina = item.TelefonoOficina,
-                TelefonoCasa = item.TelefonoCasa,
-                Fax = item.Fax,
-                Email = item.Email,
-                RFC = item.RFC,
-                Saldo = item.Saldo,
-                Bloqueado = item.Bloqueado,
-                FechaAlta = item.FechaAlta,
-                UltimoCambio = item.UltimoCambio,
-                UltimoMov = item.UltimoMov,
-                Status = item.Status,
-                Beeper = item.Beeper,
-                NC = item.NC,
-                CodigoArea = item.CodigoArea,
-                Giro = item.Giro,
-                Zona = item.Zona,
-                AuxA1 = item.AuxA1,
-                AuxA2 = item.AuxA2,
-                AuxN1 = item.AuxN1,
-                AuxN2 = item.AuxN2,
-                Recomendo = item.Recomendo,
-                Celular = item.Celular,
-                Web = item.Web,
-                NombreComercial = item.NombreComercial,
-                FacturarA = item.FacturarA,
-                Capturo = item.Capturo,
-                CapturoCambio = item.CapturoCambio,
-                EntreCalle1 = item.EntreCalle1,
-                EntreCalle2 = item.EntreCalle2,
-                FechaAltaHora = item.FechaAltaHora,
-                UltimoCambioHora = item.UltimoCambioHora,
-                Estatus = item.Estatus,
-                Delegacion = item.Delegacion,
-                SaldoAnterior = item.SaldoAnterior,
-                SaldoLimitePago = item.SaldoLimitePago,
-                GeneroECFecha = item.GeneroECFecha,
-                GeneroECCapturo = item.GeneroECCapturo,
-                EnvioEmail = item.EnvioEmail,
-                GeneroECDesde = item.GeneroECDesde,
-                GeneroECHasta = item.GeneroECHasta,
-                Htmlmail = item.Htmlmail,
-                UltimaRemision = item.UltimaRemision,
-                UltimaFactura = item.UltimaFactura,
-                Activa = item.Activa,
-                UltimoCobro = item.UltimoCobro,
-                Anticipo = item.Anticipo,
-                Ruta = item.Ruta,
-                Llamada = item.Llamada,
-                Asignado = item.Asignado,
-                ServiciosPendRemisionar = item.ServiciosPendRemisionar,
-                MetododePago = item.MetododePago,
-                NumCtaPago = item.NumCtaPago,
-                FormadePago = item.FormadePago,
-                UsoCFDI = item.UsoCFDI,
-                AuxMP = item.AuxMP,
-                CLIENTE_ID = item.CLIENTE_ID,
-                CuentaOficina = item.CuentaOficina,
-                Cuenta = item.Cuenta,
-                SubCuenta = item.SubCuenta,
-                CuentaOficina2 = item.CuentaOficina2,
-                Cuenta2 = item.Cuenta2,
-                SubCuenta2 = item.SubCuenta2
+                dynamic response = JsonConvert.SerializeObject(cliente);
+                newLog.GenerarTXT("ClienteActualizado" + response);
 
-            };
-            var result = await agregaCliente(cliente);
+                //Clave = item.Clave,
+                cliente.Empresa = item.Empresa;
+                cliente.Contacto = item.Contacto;
+                cliente.Direccion = item.Direccion;
+                cliente.Colonia = item.Colonia;
+                cliente.CP = item.CP;
+                cliente.Ciudad = item.Ciudad;
+                cliente.Estado = item.Estado;
+                cliente.Pais = item.Pais;
+                cliente.TelefonoOficina = item.TelefonoOficina;
+                cliente.TelefonoCasa = item.TelefonoCasa;
+                cliente.Fax = item.Fax;
+                cliente.Email = item.Email;
+                cliente.RFC = item.RFC;
+                cliente.Saldo = item.Saldo;
+                cliente.Bloqueado = item.Bloqueado;
+                cliente.FechaAlta = item.FechaAlta;
+                cliente.UltimoCambio = item.UltimoCambio;
+                cliente.UltimoMov = item.UltimoMov;
+                cliente.Status = item.Status;
+                cliente.Beeper = item.Beeper;
+                cliente.NC = item.NC;
+                cliente.CodigoArea = item.CodigoArea;
+                cliente.Giro = item.Giro;
+                cliente.Zona = item.Zona;
+                cliente.AuxA1 = item.AuxA1;
+                cliente.AuxA2 = item.AuxA2;
+                cliente.AuxN1 = item.AuxN1;
+                cliente.AuxN2 = item.AuxN2;
+                cliente.Recomendo = item.Recomendo;
+                cliente.Celular = item.Celular;
+                cliente.Web = item.Web;
+                cliente.NombreComercial = item.NombreComercial;
+                cliente.FacturarA = item.FacturarA;
+                cliente.Capturo = item.Capturo;
+                cliente.CapturoCambio = item.CapturoCambio;
+                cliente.EntreCalle1 = item.EntreCalle1;
+                cliente.EntreCalle2 = item.EntreCalle2;
+                cliente.FechaAltaHora = item.FechaAltaHora;
+                cliente.UltimoCambioHora = item.UltimoCambioHora;
+                cliente.Estatus = item.Estatus;
+                cliente.Delegacion = item.Delegacion;
+                cliente.SaldoAnterior = item.SaldoAnterior;
+                cliente.SaldoLimitePago = item.SaldoLimitePago;
+                cliente.GeneroECFecha = item.GeneroECFecha;
+                cliente.GeneroECCapturo = item.GeneroECCapturo;
+                cliente.EnvioEmail = item.EnvioEmail;
+                cliente.GeneroECDesde = item.GeneroECDesde;
+                cliente.GeneroECHasta = item.GeneroECHasta;
+                cliente.Htmlmail = item.Htmlmail;
+                cliente.UltimaRemision = item.UltimaRemision;
+                cliente.UltimaFactura = item.UltimaFactura;
+                cliente.Activa = item.Activa;
+                cliente.UltimoCobro = item.UltimoCobro;
+                cliente.Anticipo = item.Anticipo;
+                cliente.Ruta = item.Ruta;
+                cliente.Llamada = item.Llamada;
+                cliente.Asignado = item.Asignado;
+                cliente.ServiciosPendRemisionar = item.ServiciosPendRemisionar;
+                cliente.MetododePago = item.MetododePago;
+                cliente.NumCtaPago = item.NumCtaPago;
+                cliente.FormadePago = item.FormadePago;
+                cliente.UsoCFDI = item.UsoCFDI;
+                cliente.AuxMP = item.AuxMP;
+                cliente.CLIENTE_ID = item.CLIENTE_ID;
+                cliente.CuentaOficina = item.CuentaOficina;
+                cliente.Cuenta = item.Cuenta;
+                cliente.SubCuenta = item.SubCuenta;
+                cliente.CuentaOficina2 = item.CuentaOficina2;
+                cliente.Cuenta2 = item.Cuenta2;
+                cliente.SubCuenta2 = item.SubCuenta2;
+                cliente.RegimenFiscalClave = item.RegimenFiscalClave;
 
-            if(!result)
-            return false;
+                try
+                {
+                    db.SaveChanges();
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
 
-            return true;
+                        }
+                    }
+                    return 0;
+                }
+            }
+
+            
+            try
+            {
+                var claveCliente = db.SAVFolio.First();
+                claveCliente.Cliente = claveCliente.Cliente + 1;
+
+                db.SAVCliente.Add(item);
+                db.SaveChanges();
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property2: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
         }
-
         public int registroObra(SAVObra item)
         {
             try
@@ -260,14 +308,20 @@ namespace MainLanco.Conexion
                     AuxMP = item.AuxMP,
                     ServEspSecuencia = item.ServEspSecuencia,
                     ServEsp = item.ServEsp,
-                    SerieF = item.SerieF
+                    SerieF = item.SerieF,
+                    RegimenFiscalClave = item.RegimenFiscalClave
                 };
-                int result = 0;
-                result = agregaObra(obra);
+                int result = agregaObra(obra);
+
 
                 if (result == 0)
+                {
                     return 0;
-
+                }
+                else if (result == 2)
+                {
+                    return 2;
+                }
                 return 1;
             }
             catch (DbEntityValidationException dbEx)
@@ -279,12 +333,1188 @@ namespace MainLanco.Conexion
                         Trace.TraceInformation("Property2: {0} Error: {1}",
                             validationError.PropertyName,   
                             validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
                     }
                 }
                 return 0;
             }
             
         }
+        public int agregaRemC(SAVRemC item)
+        {
+            var RemC = db.SAVRemC.SingleOrDefault(c => c.Remision == item.Remision);
 
+            if (RemC != null)
+            {
+                
+                //RemC.Remision = item.Remision;
+                RemC.Cliente = item.Cliente;
+                RemC.FacturarA = item.FacturarA;
+                RemC.Fecha = item.Fecha;
+                RemC.TipoCambio = item.TipoCambio;
+                RemC.PorcIva = item.PorcIva;
+                RemC.Capturo = item.Capturo;
+                RemC.Comentario = item.Comentario;
+                RemC.SubTotal = item.SubTotal;
+                RemC.IVA = item.IVA;
+                RemC.Total = item.Total;
+                RemC.Procesado = item.Procesado;
+                RemC.Estatus = item.Estatus;
+                RemC.Pagado = item.Pagado;
+                RemC.Saldo = item.Saldo;
+                RemC.Partidas = item.Partidas;
+                RemC.FechaAlta = item.FechaAlta;
+                RemC.UltimoCambio = item.UltimoCambio;
+                RemC.TotalLetra = item.TotalLetra;
+                RemC.Tipo = item.Tipo;
+                RemC.NCredito = item.NCredito;
+                RemC.Vendedor = item.Vendedor;
+                RemC.Giro = item.Giro;
+                RemC.Zona = item.Zona;
+                RemC.RFC = item.RFC;
+                RemC.ConRFC = item.ConRFC;
+                RemC.FacturaConsolidada = item.FacturaConsolidada;
+                RemC.Corrida = item.Corrida;
+                RemC.Hora = item.Hora;
+                RemC.Obra = item.Obra;
+                RemC.LigaObra = item.LigaObra;
+                RemC.ObraClave = item.ObraClave;
+                RemC.Impresiones = item.Impresiones;
+                RemC.CancelacionFecha = item.CancelacionFecha;
+                RemC.CancelacionCapturo = item.CancelacionCapturo;
+                RemC.ConsignadoA = item.ConsignadoA;
+                RemC.ObraUbicacion = item.ObraUbicacion;
+                RemC.CancelacionMotivo = item.CancelacionMotivo;
+                RemC.Facturado = item.Facturado;
+                RemC.FacturadoFecha = item.FacturadoFecha;
+                RemC.FacturadoFactura = item.FacturadoFactura;
+                RemC.CancelacionSustituye = item.CancelacionSustituye;
+                RemC.Aux1 = item.Aux1;
+                RemC.Aux2 = item.Aux2;
+                RemC.AgendaMensajeria = item.AgendaMensajeria;
+                RemC.MetododePago = item.MetododePago;
+                RemC.NumCtaPago = item.NumCtaPago;
+                RemC.FacturadoFechaOriginal = item.FacturadoFechaOriginal;
+                RemC.FacturadoFacturaOriginal = item.FacturadoFacturaOriginal;
+                RemC.CapturoCambio = item.CapturoCambio;
+                RemC.FormadePago = item.FormadePago;
+                RemC.UsoCFDI = item.UsoCFDI;
+                RemC.RetencionIVA = item.RetencionIVA;
+                RemC.RetencionISR = item.RetencionISR;
+                RemC.FacturaSustituye =item.FacturaSustituye;
+                RemC.FacturaSustituye = item.FacturaSustituye;
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(RemC);
+                    newLog.GenerarTXT("RemCActualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                RemC.Remision = item.Remision;
+                RemC.Cliente = item.Cliente;
+                RemC.FacturarA = item.FacturarA;
+                RemC.Fecha = item.Fecha;
+                RemC.TipoCambio = item.TipoCambio;
+                RemC.PorcIva = item.PorcIva;
+                RemC.Capturo = item.Capturo;
+                RemC.Comentario = item.Comentario;
+                RemC.SubTotal = item.SubTotal;
+                RemC.IVA = item.IVA;
+                RemC.Total = item.Total;
+                RemC.Procesado = item.Procesado;
+                RemC.Estatus = item.Estatus;
+                RemC.Pagado = item.Pagado;
+                RemC.Saldo = item.Saldo;
+                RemC.Partidas = item.Partidas;
+                RemC.FechaAlta = item.FechaAlta;
+                RemC.UltimoCambio = item.UltimoCambio;
+                RemC.TotalLetra = item.TotalLetra;
+                RemC.Tipo = item.Tipo;
+                RemC.NCredito = item.NCredito;
+                RemC.Vendedor = item.Vendedor;
+                RemC.Giro = item.Giro;
+                RemC.Zona = item.Zona;
+                RemC.RFC = item.RFC;
+                RemC.ConRFC = item.ConRFC;
+                RemC.FacturaConsolidada = item.FacturaConsolidada;
+                RemC.Corrida = item.Corrida;
+                RemC.Hora = item.Hora;
+                RemC.Obra = item.Obra;
+                RemC.LigaObra = item.LigaObra;
+                RemC.ObraClave = item.ObraClave;
+                RemC.Impresiones = item.Impresiones;
+                RemC.CancelacionFecha = item.CancelacionFecha;
+                RemC.CancelacionCapturo = item.CancelacionCapturo;
+                RemC.ConsignadoA = item.ConsignadoA;
+                RemC.ObraUbicacion = item.ObraUbicacion;
+                RemC.CancelacionMotivo = item.CancelacionMotivo;
+                RemC.Facturado = item.Facturado;
+                RemC.FacturadoFecha = item.FacturadoFecha;
+                RemC.FacturadoFactura = item.FacturadoFactura;
+                RemC.CancelacionSustituye = item.CancelacionSustituye;
+                RemC.Aux1 = item.Aux1;
+                RemC.Aux2 = item.Aux2;
+                RemC.AgendaMensajeria = item.AgendaMensajeria;
+                RemC.MetododePago = item.MetododePago;
+                RemC.NumCtaPago = item.NumCtaPago;
+                RemC.FacturadoFechaOriginal = item.FacturadoFechaOriginal;
+                RemC.FacturadoFacturaOriginal = item.FacturadoFacturaOriginal;
+                RemC.CapturoCambio = item.CapturoCambio;
+                RemC.FormadePago = item.FormadePago;
+                RemC.UsoCFDI = item.UsoCFDI;
+                RemC.RetencionIVA = item.RetencionIVA;
+                RemC.RetencionISR = item.RetencionISR;
+                RemC.FacturaSustituye = item.FacturaSustituye;
+                RemC.FacturaSustituye = item.FacturaSustituye;
+                db.SaveChanges();
+
+                dynamic response = JsonConvert.SerializeObject(RemC);
+                newLog.GenerarTXT("RemCRegistrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaRemCA(SAVRemCA item)
+        {
+            var RemCA = db.SAVRemCA.SingleOrDefault(c => c.Remision == item.Remision);
+
+            if (RemCA != null)
+            {
+
+                //RemCA.Remision = item.Remision;
+                RemCA.FacturaAnticipo = item.FacturaAnticipo;
+                RemCA.Fecha = item.Fecha;
+                RemCA.Total = item.Total;
+                RemCA.Moneda = item.Moneda;
+                RemCA.Paridad = item.Paridad;
+                RemCA.UUID = item.UUID;
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(RemCA);
+                    newLog.GenerarTXT("RemCAActualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                RemCA.Remision = item.Remision;
+                RemCA.FacturaAnticipo = item.FacturaAnticipo;
+                RemCA.Fecha = item.Fecha;
+                RemCA.Total = item.Total;
+                RemCA.Moneda = item.Moneda;
+                RemCA.Paridad = item.Paridad;
+                RemCA.UUID = item.UUID;
+
+                db.SaveChanges();
+
+                dynamic response = JsonConvert.SerializeObject(RemCA);
+                newLog.GenerarTXT("RemCARegistrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaRemD(SAVRemD item)
+        {
+            var RemD = db.SAVRemD.SingleOrDefault(c => c.Remision == item.Remision && c.Orden == item.Orden);
+
+            if (RemD != null)
+            {
+                //RemD.Remision = item.Remision;
+                //RemD.Orden = item.Orden;
+                RemD.Tipo = item.Tipo;
+                RemD.Clave = item.Clave;
+                RemD.Descripcion = item.Descripcion;
+                RemD.Monto = item.Monto;
+                RemD.Descuento = item.Descuento;
+                RemD.Comentario = item.Comentario;
+                RemD.Cantidad = item.Cantidad;
+                RemD.DescripcionAdicional = item.DescripcionAdicional;
+                RemD.PorcIva = item.PorcIva;
+                RemD.Desc1 = item.Desc1;
+                RemD.Unidad = item.Unidad;
+                RemD.FolioServicioProg = item.FolioServicioProg;
+                RemD.PorcIvaRetencion = item.PorcIvaRetencion;
+                RemD.PorcISRRetencion = item.PorcISRRetencion;
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(RemD);
+                    newLog.GenerarTXT("RemDActualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                RemD.Remision = item.Remision;
+                RemD.Orden = item.Orden;
+                RemD.Tipo = item.Tipo;
+                RemD.Clave = item.Clave;
+                RemD.Descripcion = item.Descripcion;
+                RemD.Monto = item.Monto;
+                RemD.Descuento = item.Descuento;
+                RemD.Comentario = item.Comentario;
+                RemD.Cantidad = item.Cantidad;
+                RemD.DescripcionAdicional = item.DescripcionAdicional;
+                RemD.PorcIva = item.PorcIva;
+                RemD.Desc1 = item.Desc1;
+                RemD.Unidad = item.Unidad;
+                RemD.FolioServicioProg = item.FolioServicioProg;
+                RemD.PorcIvaRetencion = item.PorcIvaRetencion;
+                RemD.PorcISRRetencion = item.PorcISRRetencion;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(RemD);
+                newLog.GenerarTXT("RemDRegistrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaFactC(SAVFactC item)
+        {
+            var FactC = db.SAVFactC.SingleOrDefault(c => c.Remision == item.Remision);
+
+            if (FactC != null)
+            {
+
+                //FactC.Factura = item.Factura;
+                FactC.Cliente = item.Cliente;
+                FactC.FacturarA = item.FacturarA;
+                FactC.Fecha = item.Fecha;
+                FactC.TipoCambio = item.TipoCambio;
+                FactC.PorcIva = item.PorcIva;
+                FactC.Capturo = item.Capturo;
+                FactC.Comentario = item.Comentario;
+                FactC.SubTotal = item.SubTotal;
+                FactC.IVA = item.IVA;
+                FactC.Total = item.Total;
+                FactC.Procesado = item.Procesado;
+                FactC.Estatus = item.Estatus;
+                FactC.Pagado = item.Pagado;
+                FactC.Saldo = item.Saldo;
+                FactC.Partidas = item.Partidas;
+                FactC.FechaAlta = item.FechaAlta;
+                FactC.UltimoCambio = item.UltimoCambio;
+                FactC.TotalLetra = item.TotalLetra;
+                FactC.Tipo = item.Tipo;
+                FactC.NCredito = item.NCredito;
+                FactC.Vendedor = item.Vendedor;
+                FactC.Giro = item.Giro;
+                FactC.Zona = item.Zona;
+                FactC.RFC = item.RFC;
+                FactC.ConRFC = item.ConRFC;
+                FactC.FacturaConsolidada = item.FacturaConsolidada;
+                FactC.Corrida = item.Corrida;
+                FactC.Hora = item.Hora;
+                FactC.Obra = item.Obra;
+                FactC.LigaObra = item.LigaObra;
+                FactC.ObraClave = item.ObraClave;
+                FactC.Impresiones = item.Impresiones;
+                FactC.CancelacionFecha = item.CancelacionFecha;
+                FactC.CancelacionCapturo = item.CancelacionCapturo;
+                FactC.ConsignadoA = item.ConsignadoA;
+                FactC.ObraUbicacion = item.ObraUbicacion;
+                FactC.CancelacionMotivo = item.CancelacionMotivo;
+                FactC.Remision = item.Remision;
+                FactC.RemisionFecha = item.RemisionFecha;
+                FactC.CancelacionSustituye = item.CancelacionSustituye;
+                FactC.Entregada = item.Entregada;
+                FactC.AgendaMensajeria = item.AgendaMensajeria;
+                FactC.AgendaMensajeriaC = item.AgendaMensajeriaC;
+                FactC.NCargo = item.NCargo;
+                FactC.SerieCFD = item.SerieCFD;
+                FactC.FacturaCFD = item.FacturaCFD;
+                FactC.MetododePago = item.MetododePago;
+                FactC.NumCtaPago = item.NumCtaPago;
+                FactC.NCreditoCompleta = item.NCreditoCompleta;
+                FactC.Plazo = item.Plazo;
+                FactC.FechaVencimiento = item.FechaVencimiento;
+                FactC.FechaAltaHora = item.FechaAltaHora;
+                FactC.UltimoCambioHora = item.UltimoCambioHora;
+                FactC.CapturoCambio = item.CapturoCambio;
+                FactC.FormadePago = item.FormadePago;
+                FactC.UsoCFDI = item.UsoCFDI;
+                FactC.CFDIVersion = item.CFDIVersion;
+                FactC.UUID = item.UUID;
+                FactC.Parcialidades = item.Parcialidades;
+                FactC.FacturaSustituye = item.FacturaSustituye;
+                FactC.SolicitudCancelacionSAT = item.SolicitudCancelacionSAT;
+                FactC.EstatusCancelacionSAT = item.EstatusCancelacionSAT;
+                FactC.PreCancelacion = item.PreCancelacion;
+                FactC.PreCancelacionCapturo = item.PreCancelacionCapturo;
+                FactC.IntContable = item.IntContable;
+                FactC.IntContablePoliza = item.IntContablePoliza;
+                FactC.IntContablePolizaC = item.IntContablePolizaC;
+                FactC.RetencionIVA = item.RetencionIVA;
+                FactC.RetencionISR = item.RetencionISR;
+                FactC.CancelacionMotivoClave = item.CancelacionMotivoClave;
+                FactC.CancelacionUUIDRelacion = item.CancelacionUUIDRelacion;
+                FactC.DescuentoIncluido = item.DescuentoIncluido;
+                FactC.DescuentoIncluidoCIva = item.DescuentoIncluidoCIva;
+                FactC.SubTotalIva0 = item.SubTotalIva0;
+                FactC.SubTotalIva8 = item.SubTotalIva8;
+                FactC.SubTotalIva16 = item.SubTotalIva16;
+
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(FactC);
+                    newLog.GenerarTXT("FactC Actualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                FactC.Factura = item.Factura;
+                FactC.Cliente = item.Cliente;
+                FactC.FacturarA = item.FacturarA;
+                FactC.Fecha = item.Fecha;
+                FactC.TipoCambio = item.TipoCambio;
+                FactC.PorcIva = item.PorcIva;
+                FactC.Capturo = item.Capturo;
+                FactC.Comentario = item.Comentario;
+                FactC.SubTotal = item.SubTotal;
+                FactC.IVA = item.IVA;
+                FactC.Total = item.Total;
+                FactC.Procesado = item.Procesado;
+                FactC.Estatus = item.Estatus;
+                FactC.Pagado = item.Pagado;
+                FactC.Saldo = item.Saldo;
+                FactC.Partidas = item.Partidas;
+                FactC.FechaAlta = item.FechaAlta;
+                FactC.UltimoCambio = item.UltimoCambio;
+                FactC.TotalLetra = item.TotalLetra;
+                FactC.Tipo = item.Tipo;
+                FactC.NCredito = item.NCredito;
+                FactC.Vendedor = item.Vendedor;
+                FactC.Giro = item.Giro;
+                FactC.Zona = item.Zona;
+                FactC.RFC = item.RFC;
+                FactC.ConRFC = item.ConRFC;
+                FactC.FacturaConsolidada = item.FacturaConsolidada;
+                FactC.Corrida = item.Corrida;
+                FactC.Hora = item.Hora;
+                FactC.Obra = item.Obra;
+                FactC.LigaObra = item.LigaObra;
+                FactC.ObraClave = item.ObraClave;
+                FactC.Impresiones = item.Impresiones;
+                FactC.CancelacionFecha = item.CancelacionFecha;
+                FactC.CancelacionCapturo = item.CancelacionCapturo;
+                FactC.ConsignadoA = item.ConsignadoA;
+                FactC.ObraUbicacion = item.ObraUbicacion;
+                FactC.CancelacionMotivo = item.CancelacionMotivo;
+                FactC.Remision = item.Remision;
+                FactC.RemisionFecha = item.RemisionFecha;
+                FactC.CancelacionSustituye = item.CancelacionSustituye;
+                FactC.Entregada = item.Entregada;
+                FactC.AgendaMensajeria = item.AgendaMensajeria;
+                FactC.AgendaMensajeriaC = item.AgendaMensajeriaC;
+                FactC.NCargo = item.NCargo;
+                FactC.SerieCFD = item.SerieCFD;
+                FactC.FacturaCFD = item.FacturaCFD;
+                FactC.MetododePago = item.MetododePago;
+                FactC.NumCtaPago = item.NumCtaPago;
+                FactC.NCreditoCompleta = item.NCreditoCompleta;
+                FactC.Plazo = item.Plazo;
+                FactC.FechaVencimiento = item.FechaVencimiento;
+                FactC.FechaAltaHora = item.FechaAltaHora;
+                FactC.UltimoCambioHora = item.UltimoCambioHora;
+                FactC.CapturoCambio = item.CapturoCambio;
+                FactC.FormadePago = item.FormadePago;
+                FactC.UsoCFDI = item.UsoCFDI;
+                FactC.CFDIVersion = item.CFDIVersion;
+                FactC.UUID = item.UUID;
+                FactC.Parcialidades = item.Parcialidades;
+                FactC.FacturaSustituye = item.FacturaSustituye;
+                FactC.SolicitudCancelacionSAT = item.SolicitudCancelacionSAT;
+                FactC.EstatusCancelacionSAT = item.EstatusCancelacionSAT;
+                FactC.PreCancelacion = item.PreCancelacion;
+                FactC.PreCancelacionCapturo = item.PreCancelacionCapturo;
+                FactC.IntContable = item.IntContable;
+                FactC.IntContablePoliza = item.IntContablePoliza;
+                FactC.IntContablePolizaC = item.IntContablePolizaC;
+                FactC.RetencionIVA = item.RetencionIVA;
+                FactC.RetencionISR = item.RetencionISR;
+                FactC.CancelacionMotivoClave = item.CancelacionMotivoClave;
+                FactC.CancelacionUUIDRelacion = item.CancelacionUUIDRelacion;
+                FactC.DescuentoIncluido = item.DescuentoIncluido;
+                FactC.DescuentoIncluidoCIva = item.DescuentoIncluidoCIva;
+                FactC.SubTotalIva0 = item.SubTotalIva0;
+                FactC.SubTotalIva8 = item.SubTotalIva8;
+                FactC.SubTotalIva16 = item.SubTotalIva16;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(FactC);
+                newLog.GenerarTXT("FactC Registrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaFactCA(SAVFactCA item)
+        {
+            var FactCA = db.SAVFactCA.SingleOrDefault(c => c.Factura == item.Factura);
+
+            if (FactCA != null)
+            {
+
+                //FactCA.Factura = item.Factura;
+                FactCA.FacturaAnticipo = item.FacturaAnticipo;
+                FactCA.Fecha = item.Fecha;
+                FactCA.Total = item.Total;
+                FactCA.Moneda = item.Moneda;
+                FactCA.Paridad = item.Paridad;
+                FactCA.UUID = item.UUID;
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(FactCA);
+                    newLog.GenerarTXT("FactCA Actualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                FactCA.Factura = item.Factura;
+                FactCA.FacturaAnticipo = item.FacturaAnticipo;
+                FactCA.Fecha = item.Fecha;
+                FactCA.Total = item.Total;
+                FactCA.Moneda = item.Moneda;
+                FactCA.Paridad = item.Paridad;
+                FactCA.UUID = item.UUID;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(FactCA);
+                newLog.GenerarTXT("FactC Registrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaFactCFD(SAVFactCFD item)
+        {
+            var FactCFD = db.SAVFactCFD.SingleOrDefault(c => c.Factura == item.Factura);
+
+            if (FactCFD != null)
+            {
+                //FactCFD.Factura = item.Factura;
+                FactCFD.SerieCFD = item.SerieCFD;
+                FactCFD.FacturaCFD = item.FacturaCFD;
+                FactCFD.NombreCFD = item.NombreCFD;
+                FactCFD.CFDCancelado = item.CFDCancelado;
+                FactCFD.CFDSelloDigital = item.CFDSelloDigital;
+                FactCFD.CFDXML = item.CFDXML;
+                FactCFD.CFDCadenaOriginal = item.CFDCadenaOriginal;
+                FactCFD.CFDCertificado = item.CFDCertificado;
+                FactCFD.AprobacionNumero = item.AprobacionNumero;
+                FactCFD.AprobacionAge = item.AprobacionAge;
+                FactCFD.FacturaTotal = item.FacturaTotal;
+                FactCFD.FacturaIva = item.FacturaIva;
+                FactCFD.Capturo = item.Capturo;
+                FactCFD.FechaAlta = item.FechaAlta;
+                FactCFD.FechaAltaHora = item.FechaAltaHora;
+                FactCFD.CFDCanceladoFecha = item.CFDCanceladoFecha;
+                FactCFD.CFDCanceladoHora = item.CFDCanceladoHora;
+                FactCFD.RFC = item.RFC;
+                FactCFD.EnvioFTP = item.EnvioFTP;
+                FactCFD.CFDCertificadoSAT = item.CFDCertificadoSAT;
+                FactCFD.CFDSelloDigitalSAT = item.CFDSelloDigitalSAT;
+                FactCFD.TimbradoFolioFiscal = item.TimbradoFolioFiscal;
+                FactCFD.TimbradoFechaHora = item.TimbradoFechaHora;
+                FactCFD.TimbradoCodigoQR = item.TimbradoCodigoQR;
+                FactCFD.CFDIVersion = item.CFDIVersion;
+
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(FactCFD);
+                    newLog.GenerarTXT("FactCFD Actualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                FactCFD.Factura = item.Factura;
+                FactCFD.SerieCFD = item.SerieCFD;
+                FactCFD.FacturaCFD = item.FacturaCFD;
+                FactCFD.NombreCFD = item.NombreCFD;
+                FactCFD.CFDCancelado = item.CFDCancelado;
+                FactCFD.CFDSelloDigital = item.CFDSelloDigital;
+                FactCFD.CFDXML = item.CFDXML;
+                FactCFD.CFDCadenaOriginal = item.CFDCadenaOriginal;
+                FactCFD.CFDCertificado = item.CFDCertificado;
+                FactCFD.AprobacionNumero = item.AprobacionNumero;
+                FactCFD.AprobacionAge = item.AprobacionAge;
+                FactCFD.FacturaTotal = item.FacturaTotal;
+                FactCFD.FacturaIva = item.FacturaIva;
+                FactCFD.Capturo = item.Capturo;
+                FactCFD.FechaAlta = item.FechaAlta;
+                FactCFD.FechaAltaHora = item.FechaAltaHora;
+                FactCFD.CFDCanceladoFecha = item.CFDCanceladoFecha;
+                FactCFD.CFDCanceladoHora = item.CFDCanceladoHora;
+                FactCFD.RFC = item.RFC;
+                FactCFD.EnvioFTP = item.EnvioFTP;
+                FactCFD.CFDCertificadoSAT = item.CFDCertificadoSAT;
+                FactCFD.CFDSelloDigitalSAT = item.CFDSelloDigitalSAT;
+                FactCFD.TimbradoFolioFiscal = item.TimbradoFolioFiscal;
+                FactCFD.TimbradoFechaHora = item.TimbradoFechaHora;
+                FactCFD.TimbradoCodigoQR = item.TimbradoCodigoQR;
+                FactCFD.CFDIVersion = item.CFDIVersion;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(FactCFD);
+                newLog.GenerarTXT("FactCFD Registrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaFactD(SAVFactD item)
+        {
+            var FactD = db.SAVFactD.SingleOrDefault(c => c.Factura == item.Factura && c.Orden == item.Orden);
+
+            if (FactD != null)
+            {
+                //FactD.Factura = item.Factura;
+                //FactD.Orden = item.Orden;
+                FactD.Tipo = item.Tipo;
+                FactD.Clave = item.Clave;
+                FactD.Descripcion = item.Descripcion;
+                FactD.Monto = item.Monto;
+                FactD.Descuento = item.Descuento;
+                FactD.Comentario = item.Comentario;
+                FactD.Cantidad = item.Cantidad;
+                FactD.DescripcionAdicional = item.DescripcionAdicional;
+                FactD.PorcIva = item.PorcIva;
+                FactD.Desc1 = item.Desc1;
+                FactD.Unidad = item.Unidad;
+                FactD.FolioServicioProg = item.FolioServicioProg;
+                FactD.PorcIvaRetencion = item.PorcIvaRetencion;
+                FactD.PorcISRRetencion = item.PorcISRRetencion;
+                FactD.DescuentoIncluido = item.DescuentoIncluido;
+                FactD.DescuentoIncluidoCIva = item.DescuentoIncluidoCIva;
+                FactD.SubTotal = item.SubTotal;
+                FactD.Iva = item.Iva;
+                FactD.IvaRetencion = item.IvaRetencion;
+                FactD.ISRRetencion = item.ISRRetencion;
+                FactD.TotalR = item.TotalR;
+                FactD.SubTotalIva0 = item.SubTotalIva0;
+                FactD.SubTotalIva8 = item.SubTotalIva8;
+                FactD.SubTotalIva16 = item.SubTotalIva16;
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(FactD);
+                    newLog.GenerarTXT("FactD Actualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                FactD.Factura = item.Factura;
+                FactD.Orden = item.Orden;
+                FactD.Tipo = item.Tipo;
+                FactD.Clave = item.Clave;
+                FactD.Descripcion = item.Descripcion;
+                FactD.Monto = item.Monto;
+                FactD.Descuento = item.Descuento;
+                FactD.Comentario = item.Comentario;
+                FactD.Cantidad = item.Cantidad;
+                FactD.DescripcionAdicional = item.DescripcionAdicional;
+                FactD.PorcIva = item.PorcIva;
+                FactD.Desc1 = item.Desc1;
+                FactD.Unidad = item.Unidad;
+                FactD.FolioServicioProg = item.FolioServicioProg;
+                FactD.PorcIvaRetencion = item.PorcIvaRetencion;
+                FactD.PorcISRRetencion = item.PorcISRRetencion;
+                FactD.DescuentoIncluido = item.DescuentoIncluido;
+                FactD.DescuentoIncluidoCIva = item.DescuentoIncluidoCIva;
+                FactD.SubTotal = item.SubTotal;
+                FactD.Iva = item.Iva;
+                FactD.IvaRetencion = item.IvaRetencion;
+                FactD.ISRRetencion = item.ISRRetencion;
+                FactD.TotalR = item.TotalR;
+                FactD.SubTotalIva0 = item.SubTotalIva0;
+                FactD.SubTotalIva8 = item.SubTotalIva8;
+                FactD.SubTotalIva16 = item.SubTotalIva16;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(FactD);
+                newLog.GenerarTXT("FactD Registrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
+        public int agregaObraServicioProg(SAVObraServicioProg item)
+        {
+            var ObraServicioProg = db.SAVObraServicioProg.SingleOrDefault(c => c.Obra == item.Obra && c.Folio == item.Folio);
+
+            if (ObraServicioProg != null)
+            {
+                //ObraServicioProg.Obra = item.Obra;
+                //ObraServicioProg.Folio = item.Folio;
+                ObraServicioProg.Tipo = item.Tipo;
+                ObraServicioProg.Clave = item.Clave;
+                ObraServicioProg.Fecha = item.Fecha;
+                ObraServicioProg.Cliente = item.Cliente;
+                ObraServicioProg.Descripcion = item.Descripcion;
+                ObraServicioProg.Monto = item.Monto;
+                ObraServicioProg.Moneda = item.Moneda;
+                ObraServicioProg.Descuento = item.Descuento;
+                ObraServicioProg.Comentario = item.Comentario;
+                ObraServicioProg.Cantidad = item.Cantidad;
+                ObraServicioProg.DescripcionAdicional = item.DescripcionAdicional;
+                ObraServicioProg.PorcIva = item.PorcIva;
+                ObraServicioProg.Desc1 = item.Desc1;
+                ObraServicioProg.Unidad = item.Unidad;
+                ObraServicioProg.Capturo = item.Capturo;
+                ObraServicioProg.FechaAlta = item.FechaAlta;
+                ObraServicioProg.FechaAltaHora = item.FechaAltaHora;
+                ObraServicioProg.Cobrado = item.Cobrado;
+                ObraServicioProg.CobradoTipo = item.CobradoTipo;
+                ObraServicioProg.CobradoNumero = item.CobradoNumero;
+                ObraServicioProg.CobradoFecha = item.CobradoFecha;
+                ObraServicioProg.CobradoCapturo = item.CobradoCapturo;
+                ObraServicioProg.CapturoCambio = item.CapturoCambio;
+                ObraServicioProg.UltimoCambio = item.UltimoCambio;
+                ObraServicioProg.UltimoCambioHora = item.UltimoCambioHora;
+                ObraServicioProg.Consolida = item.Consolida;
+                ObraServicioProg.Remisiona = item.Remisiona;
+                ObraServicioProg.Consolidacion = item.Consolidacion;
+                ObraServicioProg.Agrupacion = item.Agrupacion;
+                ObraServicioProg.Referencia = item.Referencia;
+                ObraServicioProg.Muestreador = item.Muestreador;
+                ObraServicioProg.MuestreadorNombre = item.MuestreadorNombre;
+                ObraServicioProg.Seleccion = item.Seleccion;
+                ObraServicioProg.CobroS = item.CobroS;
+                ObraServicioProg.CobroSFecha = item.CobroSFecha;
+                ObraServicioProg.CobroSFormaPago = item.CobroSFormaPago;
+                ObraServicioProg.CobroSBanco = item.CobroSBanco;
+                ObraServicioProg.CobroSCuenta = item.CobroSCuenta;
+                ObraServicioProg.CobroSBancoDeposito = item.CobroSBancoDeposito;
+                ObraServicioProg.CobroSCapturo = item.CobroSCapturo;
+                ObraServicioProg.FolioVisita = item.FolioVisita;
+                ObraServicioProg.Origen = item.Origen;
+                ObraServicioProg.Cancelado = item.Cancelado;
+                ObraServicioProg.CanceladoFecha = item.CanceladoFecha;
+                ObraServicioProg.CanceladoCapturo = item.CanceladoCapturo;
+                ObraServicioProg.PorcIvaRetencion = item.PorcIvaRetencion;
+                ObraServicioProg.PorcISRRetencion = item.PorcISRRetencion;
+
+
+                try
+                {
+                    db.SaveChanges();
+                    dynamic response = JsonConvert.SerializeObject(ObraServicioProg);
+                    newLog.GenerarTXT("ObraServicioProg Actualiza" + response);
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                        }
+                    }
+                    return 0;
+                }
+            }
+            try
+            {
+                ObraServicioProg.Obra = item.Obra;
+                ObraServicioProg.Folio = item.Folio;
+                ObraServicioProg.Tipo = item.Tipo;
+                ObraServicioProg.Clave = item.Clave;
+                ObraServicioProg.Fecha = item.Fecha;
+                ObraServicioProg.Cliente = item.Cliente;
+                ObraServicioProg.Descripcion = item.Descripcion;
+                ObraServicioProg.Monto = item.Monto;
+                ObraServicioProg.Moneda = item.Moneda;
+                ObraServicioProg.Descuento = item.Descuento;
+                ObraServicioProg.Comentario = item.Comentario;
+                ObraServicioProg.Cantidad = item.Cantidad;
+                ObraServicioProg.DescripcionAdicional = item.DescripcionAdicional;
+                ObraServicioProg.PorcIva = item.PorcIva;
+                ObraServicioProg.Desc1 = item.Desc1;
+                ObraServicioProg.Unidad = item.Unidad;
+                ObraServicioProg.Capturo = item.Capturo;
+                ObraServicioProg.FechaAlta = item.FechaAlta;
+                ObraServicioProg.FechaAltaHora = item.FechaAltaHora;
+                ObraServicioProg.Cobrado = item.Cobrado;
+                ObraServicioProg.CobradoTipo = item.CobradoTipo;
+                ObraServicioProg.CobradoNumero = item.CobradoNumero;
+                ObraServicioProg.CobradoFecha = item.CobradoFecha;
+                ObraServicioProg.CobradoCapturo = item.CobradoCapturo;
+                ObraServicioProg.CapturoCambio = item.CapturoCambio;
+                ObraServicioProg.UltimoCambio = item.UltimoCambio;
+                ObraServicioProg.UltimoCambioHora = item.UltimoCambioHora;
+                ObraServicioProg.Consolida = item.Consolida;
+                ObraServicioProg.Remisiona = item.Remisiona;
+                ObraServicioProg.Consolidacion = item.Consolidacion;
+                ObraServicioProg.Agrupacion = item.Agrupacion;
+                ObraServicioProg.Referencia = item.Referencia;
+                ObraServicioProg.Muestreador = item.Muestreador;
+                ObraServicioProg.MuestreadorNombre = item.MuestreadorNombre;
+                ObraServicioProg.Seleccion = item.Seleccion;
+                ObraServicioProg.CobroS = item.CobroS;
+                ObraServicioProg.CobroSFecha = item.CobroSFecha;
+                ObraServicioProg.CobroSFormaPago = item.CobroSFormaPago;
+                ObraServicioProg.CobroSBanco = item.CobroSBanco;
+                ObraServicioProg.CobroSCuenta = item.CobroSCuenta;
+                ObraServicioProg.CobroSBancoDeposito = item.CobroSBancoDeposito;
+                ObraServicioProg.CobroSCapturo = item.CobroSCapturo;
+                ObraServicioProg.FolioVisita = item.FolioVisita;
+                ObraServicioProg.Origen = item.Origen;
+                ObraServicioProg.Cancelado = item.Cancelado;
+                ObraServicioProg.CanceladoFecha = item.CanceladoFecha;
+                ObraServicioProg.CanceladoCapturo = item.CanceladoCapturo;
+                ObraServicioProg.PorcIvaRetencion = item.PorcIvaRetencion;
+                ObraServicioProg.PorcISRRetencion = item.PorcISRRetencion;
+
+                db.SaveChanges();
+                dynamic response = JsonConvert.SerializeObject(ObraServicioProg);
+                newLog.GenerarTXT("ObraServicioProg Registrada" + response);
+
+                return 1;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+                    }
+                }
+                return 0;
+            }
+            //try
+            //{
+            //    var claveRemC = db.SAVRemC.First();
+            //    claveRemC.Cliente = claveRemC.Cliente + 1;
+
+            //    db.SAVRemC.Add(item);
+            //    db.SaveChanges();
+
+            //    return 1;
+            //}
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property2: {0} Error: {1}",
+            //                validationError.PropertyName,
+            //                validationError.ErrorMessage);
+            //            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+
+            //        }
+            //    }
+            //    return 0;
+            //}
+        }
     }
 }

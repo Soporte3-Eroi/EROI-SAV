@@ -210,5 +210,8 @@ namespace DatosLAnco
 
         [StringLength(20)]
         public string SubCuenta2 { get; set; }
+
+        [StringLength(255)]
+        public string RegimenFiscalClave { get; set; }
     }
 }

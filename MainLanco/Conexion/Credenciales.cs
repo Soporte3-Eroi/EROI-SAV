@@ -39,8 +39,7 @@ namespace MainLanco.Conexion
             }
             catch (Exception ex)
             {
-                Logger logger = new Logger();
-                logger.Log("ClassLibrary: Error en el método ConexionStringHana. " + ex.GetType().ToString() + " " + ex.Message);
+                newLog.GenerarTXT("Credenciales: Error en el método credenciales. " + ex.GetType().ToString() + " " + ex.Message);
 
                 return objs;
             }
@@ -63,8 +62,7 @@ namespace MainLanco.Conexion
             }
             catch (Exception e)
             {
-                var logger = new Logger();
-                logger.Log("Error en el método readFile. No se pudo completar la lectura del archivo de configuración" + e.Message);
+                newLog.GenerarTXT("Error en el método readFile. No se pudo completar la lectura del archivo de configuración" + e.Message);
                 return conf = null;
             }
         }

@@ -1,7 +1,9 @@
 ﻿using MainLanco.Conexion;
 using MainLanco.eRoi;
+using MainLanco.Utilerias;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,20 +14,32 @@ namespace MainLanco
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Inicio!");
+            try
+            {
+                Console.WriteLine("Inicio!");
+                Business.addCliente();
+                //APIeRoi.updateCliente().Wait();
 
-            //APIeRoi.addCliente().Wait();
-            //APIeRoi.updateCliente().Wait();
+                //APIeRoi.folioAeRoi();
+                //fileRegistro.enviarRegistrosXHora();
 
+                //APIeRoi.addObra();
+                //APIeRoi.updateObra();
+                AddRemC.RemC();
+                AddRemCA.RemCA();
+                AddRemD.RemD();
+                AddFactC.FactC();
+                AddFactCA.FactCA();
+                AddFactCFD.FactCFD();
+                AddFactD.FactD();
+                AddObraServicioProg.SAVObraServicioProg();
 
-            APIeRoi.addObra();
-
-            //APIeRoi.updateObra();
-
-            Console.WriteLine("Fin!");
-
-            Console.WriteLine("Enter para cerrar!");
-            Console.ReadLine();
+                Console.WriteLine("Fin!");
+            }
+            catch (Exception ex)
+            {
+                newLog.GenerarTXT("Excepción: " + ex.Message + " " + ex.GetType().ToString());
+            }
         }
     }
 

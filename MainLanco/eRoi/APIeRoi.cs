@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -26,15 +27,6 @@ namespace MainLanco.eRoi
         public static string user = "";
         //public static string pass = "1034_01";
         public static string pass = "";
-
-        public static async Task addCliente()
-        {
-            await Clientes(true);
-        }
-        public static async Task updateCliente()
-        {
-            await Clientes(false);
-        }
         public static void addObra()
         {
             Obras(true);
@@ -43,182 +35,6 @@ namespace MainLanco.eRoi
         {
             Obras(false);
         }
-        public static async Task Clientes(bool dto)
-        {
-            Credenciales crd = new Credenciales();
-            dynamic ob = crd.credenciales();
-            url = ob.url;
-            user = ob.user;
-            pass = ob.pass;
-
-            dynamic resToken = await Login(user, pass);
-
-            dynamic resApi = CallApi("Get", "Clientes", new { }).Result;
-
-            foreach (dynamic value in resApi.data)
-            {
-                //var context = new pruebaEntities();
-                try
-                {
-                    DateTime? Alta = DateTime.Now; //Lineas
-                    dbModel db = new dbModel();
-                    Standars utileria = new Standars();
-                    string newId = "";
-                    if (dto)
-                    {
-                        var idCliente = db.SAVFolio.First();
-                        newId = (idCliente.Cliente + 1).ToString();
-
-                        //Formatear id de 9101 a 009101
-                        for (int i = 0; newId.Length <= 5; i++)
-                        {
-                            newId = "0" + newId;
-                        }
-                    }
-                    else
-                    {
-                        var idCliente = db.SAVFolio.First();
-                        newId = (idCliente.Cliente).ToString();
-
-                        //Formatear id de 9101 a 009101
-                        for (int i = 0; newId.Length <= 5; i++)
-                        {
-                            newId = "0" + newId;
-                        }
-                    }
-                    
-
-                    var Cliente = new SAVCliente()
-                    {
-                        Clave = newId,
-                        Empresa = value.Empresa,
-                        Contacto = value.Contacto,
-                        Direccion = value.Direccion,
-                        Colonia = value.Colonia,
-                        CP = value.CP,
-                        Ciudad = value.Ciudad,
-                        Estado = value.Estado,
-                        Pais = value.Pais,
-                        TelefonoOficina = value.TelefonoOficina,
-                        TelefonoCasa = value.TelefonoCasa,
-                        Fax = value.Fax,
-                        Email = value.Email,
-                        RFC = value.RFC,
-                        Saldo = value.Saldo,
-                        Bloqueado = value.Bloqueado,
-                        FechaAlta = Alta,
-                        UltimoCambio = Alta,
-                        UltimoMov = Alta,
-                        Status = value.Status,
-                        Beeper = value.Beeper,
-                        NC = value.NC,
-                        CodigoArea = value.CodigoArea,
-                        Giro = value.Giro,
-                        Zona = value.Zona,
-                        AuxA1 = value.AuxA1,
-                        AuxA2 = value.AuxA2,
-                        AuxN1 = value.AuxN1,
-                        AuxN2 = value.AuxN2,
-                        Recomendo = value.Recomendo,
-                        Celular = value.Celular,
-                        Web = value.Web,
-                        NombreComercial = value.NombreComercial,
-                        FacturarA = value.FacturarA,
-                        Capturo = value.Capturo,
-                        CapturoCambio = value.CapturoCambio,
-                        EntreCalle1 = value.EntreCalle1,
-                        EntreCalle2 = value.EntreCalle2,
-                        FechaAltaHora = utileria.convHoraTiempo(value.FechaAltaHora),
-                        UltimoCambioHora = utileria.convHoraTiempo(value.UltimoCambioHora),
-
-                        Estatus = value.Estatus,
-                        Delegacion = value.Delegacion,
-                        SaldoAnterior = utileria.convDecimal(value.SaldoAnterior),
-
-                        SaldoLimitePago = utileria.convHoraTiempo(value.SaldoLimitePago),
-
-                        GeneroECFecha = utileria.convHoraTiempo(value.GeneroECFecha),
-
-                        GeneroECCapturo = value.GeneroECCapturo,
-                        EnvioEmail = utileria.convBoolStr(value.EnvioEmail),
-                        GeneroECDesde = value.GeneroECDesd,
-
-                        GeneroECHasta = utileria.convHoraTiempo(value.GeneroECHasta),
-
-                        Htmlmail = utileria.convBoolStr(value.Htmlmail),
-                        UltimaRemision = utileria.convHoraTiempo(value.UltimaRemision),
-
-                        UltimaFactura = utileria.convHoraTiempo(value.UltimaFactura),
-
-                        Activa = utileria.convBoolStr(value.Activa),
-                        UltimoCobro = utileria.convHoraTiempo2(value.UltimoCobro),
-
-                        Anticipo = utileria.convDecimal(value.Anticipo),
-                        Ruta = value.Ruta,
-                        Llamada = utileria.convBoolStr(value.Llamada),
-                        Asignado = value.Asignado,
-                        ServiciosPendRemisionar = utileria.convDecimal(value.ServiciosPendRemisionar),
-                        MetododePago = value.MetododePago,
-                        NumCtaPago = value.NumCtaPago,
-                        FormadePago = value.FormadePago,
-                        UsoCFDI = value.UsoCFDI,
-                        AuxMP = value.AuxMP,
-                        CLIENTE_ID = utileria.convInt(value.CLIENTE_ID),
-                        CuentaOficina = value.CuentaOficina,
-                        Cuenta = value.Cuenta,
-                        SubCuenta = value.SubCuenta,
-                        CuentaOficina2 = value.CuentaOficina2,
-                        Cuenta2 = value.Cuenta2,
-                        SubCuenta2 = value.SubCuenta2
-                        //RegimenFiscalClave = value.RegimenFiscalClave
-                    };
-
-                    Console.WriteLine("Paso el objeto");
-                    dynamic json = JsonConvert.SerializeObject(Cliente);
-
-                    var item = JsonConvert.DeserializeObject<SAVCliente>(json);
-                    Business n = new Business();
-                    bool resp = n.registroCliente(item).Result;
-
-                    // Actualiza en Eroi
-                    var res = new
-                    {
-                        Res = "OK",
-                        Clave = value.Clave,
-                        ClaveLanco = newId
-                    };
-                    dynamic response = JsonConvert.SerializeObject(res);
-                    Logger logger = new Logger();
-                    logger.Log("ClienteActualizado" + response);
-
-                    if (resp)
-                    {
-                        
-                        Console.WriteLine("Cliente registrado en DB");
-                        Console.WriteLine("------------------------");
-
-                        await CallApi("POST", "ActualizaClientes", res);
-
-                        Console.WriteLine("Cliente registrado en eROI");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Cliente actualizado en DB");
-                        Console.WriteLine("------------------------");
-
-                        await CallApi("POST", "ActualizaClientes", res);
-
-                        Console.WriteLine("Cliente actualizado en eROI");
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error" + e.Message);
-                }
-            }
-        }
-
         public static void Obras(bool dto)
         {
             try
@@ -427,11 +243,11 @@ namespace MainLanco.eRoi
                             AuxMP = "NA",
                             ServEspSecuencia = Convert.ToInt32(value.ServEspSecuencia),
                             ServEsp = value.ServEsp,
-                            SerieF = value.SerieF
-                            //RegimenFiscalClave = value.RegimenFiscalClave
+                            SerieF = value.SerieF,
+                            RegimenFiscalClave = value.RegimenFiscalClave
                         };
 
-                        Console.WriteLine("Paso el objeto");
+                        //Console.WriteLine("Paso el objeto");
 
                         dynamic json = JsonConvert.SerializeObject(Obra);
                         var item = JsonConvert.DeserializeObject<SAVObra>(json);
@@ -448,8 +264,9 @@ namespace MainLanco.eRoi
                         };
 
                         dynamic response = JsonConvert.SerializeObject(res);
-                        Logger logger = new Logger();
-                        logger.Log("ObraActualizado" + response);
+                        newLog.GenerarTXT(response);
+                        //Logger logger = new Logger();
+                        //logger.Log("ObraActualizado" + response);
 
                         if (resp == 1)
                         {
@@ -480,13 +297,13 @@ namespace MainLanco.eRoi
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Error" + e.Message + e.ToString());
+                        newLog.GenerarTXT("Error" + e.Message + e.ToString());
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception: " + e.Message);
+                newLog.GenerarTXT("Exception: " + e.Message);
             }
             
         }
@@ -516,7 +333,9 @@ namespace MainLanco.eRoi
 
         public static async Task<dynamic> CallApi(string type, string method, object dataSend)
         {
-            Logger logger = new Logger();
+            Credenciales crd = new Credenciales();
+            dynamic ob = crd.credenciales();
+            string url = ob.url;
             HttpClient client = new HttpClient();
             if (method != "login")
             {
@@ -526,6 +345,7 @@ namespace MainLanco.eRoi
             if (type == "GET")
             {
                 httpResponse = await client.GetAsync(url + method);
+                //newLog.GenerarTXT("Api: Get.- " + httpResponse);
                 //Console.WriteLine(httpResponse);
                 //httpResponse = await client.GetAsync(url + "TestApi");
             }
@@ -542,11 +362,14 @@ namespace MainLanco.eRoi
                 if (method != "login")
                 {
                     httpResponse = client.PostAsync(url + method, httpContent).Result;
+                    //string jsonresp = JsonConvert.SerializeObject(httpResponse);
+                    //newLog.GenerarTXT("Api: Post.- " + jsonresp);
                 }
                 else
                 {
                     httpResponse = client.PostAsync(url + method, httpContent).Result;
-
+                    //string jsonresp = JsonConvert.SerializeObject(httpResponse);
+                    //newLog.GenerarTXT("Api: " + jsonresp);
                 }
 
             }
@@ -556,7 +379,7 @@ namespace MainLanco.eRoi
                 //Console.WriteLine("llego error");
                 var responseJson = httpResponse.Content.ReadAsStringAsync().Result;
                 dynamic response = JsonConvert.DeserializeObject(responseJson);
-                logger.Log("Llego" + response);
+                newLog.GenerarTXT("Llego" + response);
                 return response;
             }
             var responseFail = new
@@ -567,7 +390,7 @@ namespace MainLanco.eRoi
             Console.WriteLine("llego error");
             var stringEr = JsonConvert.SerializeObject(responseFail);
             dynamic responseER = JsonConvert.DeserializeObject(stringEr);
-            logger.Log("Llego error: " + responseER);
+            newLog.GenerarTXT("Llego error: " + responseER);
             return responseER;
         }
     }

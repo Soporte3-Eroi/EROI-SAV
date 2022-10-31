@@ -13,101 +13,6 @@ namespace MainLanco.Conexion
 {
     public partial class Business
     {
-        public async Task<bool> agregaCliente(SAVCliente item)
-        {
-            var cliente = db.SAVCliente.SingleOrDefault(c => c.Clave == item.Clave);
-
-
-            if (cliente != null) 
-            {
-                dynamic response = JsonConvert.SerializeObject(cliente);
-                Logger logger = new Logger();
-                logger.Log("ClienteActualizado" + response);
-
-                //Clave = item.Clave,
-                cliente.Empresa = item.Empresa;
-                cliente.Contacto = item.Contacto;
-                cliente.Direccion = item.Direccion;
-                cliente.Colonia = item.Colonia;
-                cliente.CP = item.CP;
-                cliente.Ciudad = item.Ciudad;
-                cliente.Estado = item.Estado;
-                cliente.Pais = item.Pais;
-                cliente.TelefonoOficina = item.TelefonoOficina;
-                cliente.TelefonoCasa = item.TelefonoCasa;
-                cliente.Fax = item.Fax;
-                cliente.Email = item.Email;
-                cliente.RFC = item.RFC;
-                cliente.Saldo = item.Saldo;
-                cliente.Bloqueado = item.Bloqueado;
-                cliente.FechaAlta = item.FechaAlta;
-                cliente.UltimoCambio = item.UltimoCambio;
-                cliente.UltimoMov = item.UltimoMov;
-                cliente.Status = item.Status;
-                cliente.Beeper = item.Beeper;
-                cliente.NC = item.NC;
-                cliente.CodigoArea = item.CodigoArea;
-                cliente.Giro = item.Giro;
-                cliente.Zona = item.Zona;
-                cliente.AuxA1 = item.AuxA1;
-                cliente.AuxA2 = item.AuxA2;
-                cliente.AuxN1 = item.AuxN1;
-                cliente.AuxN2 = item.AuxN2;
-                cliente.Recomendo = item.Recomendo;
-                cliente.Celular = item.Celular;
-                cliente.Web = item.Web;
-                cliente.NombreComercial = item.NombreComercial;
-                cliente.FacturarA = item.FacturarA;
-                cliente.Capturo = item.Capturo;
-                cliente.CapturoCambio = item.CapturoCambio;
-                cliente.EntreCalle1 = item.EntreCalle1;
-                cliente.EntreCalle2 = item.EntreCalle2;
-                cliente.FechaAltaHora = item.FechaAltaHora;
-                cliente.UltimoCambioHora = item.UltimoCambioHora;
-                cliente.Estatus = item.Estatus;
-                cliente.Delegacion = item.Delegacion;
-                cliente.SaldoAnterior = item.SaldoAnterior;
-                cliente.SaldoLimitePago = item.SaldoLimitePago;
-                cliente.GeneroECFecha = item.GeneroECFecha;
-                cliente.GeneroECCapturo = item.GeneroECCapturo;
-                cliente.EnvioEmail = item.EnvioEmail;
-                cliente.GeneroECDesde = item.GeneroECDesde;
-                cliente.GeneroECHasta = item.GeneroECHasta;
-                cliente.Htmlmail = item.Htmlmail;
-                cliente.UltimaRemision = item.UltimaRemision;
-                cliente.UltimaFactura = item.UltimaFactura;
-                cliente.Activa = item.Activa;
-                cliente.UltimoCobro = item.UltimoCobro;
-                cliente.Anticipo = item.Anticipo;
-                cliente.Ruta = item.Ruta;
-                cliente.Llamada = item.Llamada;
-                cliente.Asignado = item.Asignado;
-                cliente.ServiciosPendRemisionar = item.ServiciosPendRemisionar;
-                cliente.MetododePago = item.MetododePago;
-                cliente.NumCtaPago = item.NumCtaPago;
-                cliente.FormadePago = item.FormadePago;
-                cliente.UsoCFDI = item.UsoCFDI;
-                cliente.AuxMP = item.AuxMP;
-                cliente.CLIENTE_ID = item.CLIENTE_ID;
-                cliente.CuentaOficina = item.CuentaOficina;
-                cliente.Cuenta = item.Cuenta;
-                cliente.SubCuenta = item.SubCuenta;
-                cliente.CuentaOficina2 = item.CuentaOficina2;
-                cliente.Cuenta2 = item.Cuenta2;
-                cliente.SubCuenta2 = item.SubCuenta2;
-
-                await db.SaveChangesAsync();
-                return false;
-            }
-
-            var claveCliente = db.SAVFolio.First();
-            claveCliente.Cliente = claveCliente.Cliente + 1;
-
-            db.SAVCliente.Add(item);
-            await db.SaveChangesAsync();
-
-            return true;
-        }
 
         public int agregaObra(SAVObra item)
         {
@@ -137,6 +42,7 @@ namespace MainLanco.Conexion
                                 Trace.TraceInformation("Property2: {0} Error: {1}",
                                     validationError.PropertyName,
                                     validationError.ErrorMessage);
+                                newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
                             }
                         }
                         return 0;
@@ -144,8 +50,7 @@ namespace MainLanco.Conexion
                 }
 
                 dynamic response = JsonConvert.SerializeObject(obra);
-                Logger logger = new Logger();
-                logger.Log("ObraActualizado" + response);
+                newLog.GenerarTXT("ObraActualizado" + response);
 
                 //obra.Obra = item.Obra;
                 obra.Nombre = item.Nombre;
@@ -306,11 +211,27 @@ namespace MainLanco.Conexion
                 obra.ServEspSecuencia = item.ServEspSecuencia;
                 obra.ServEsp = item.ServEsp;
                 obra.SerieF = item.SerieF;
+                obra.RegimenFiscalClave = item.RegimenFiscalClave;
 
-                int num = db.SaveChanges();
-
-                Console.WriteLine("savechanges: " + num);
-                return 2;
+                try
+                {
+                    db.SaveChanges();
+                    return 2;
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                validationError.PropertyName,
+                                validationError.ErrorMessage);
+                            newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
+                        }
+                    }
+                    return 0;
+                }
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -321,6 +242,7 @@ namespace MainLanco.Conexion
                         Trace.TraceInformation("Property3: {0} Error: {1}",
                             validationError.PropertyName,
                             validationError.ErrorMessage);
+                        newLog.GenerarTXT("Propiedad name: " + validationError.PropertyName + " " + validationError.ErrorMessage);
                     }
                 }
                 return 0;

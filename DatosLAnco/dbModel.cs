@@ -15,6 +15,14 @@ namespace DatosLAnco
         public virtual DbSet<SAVCliente> SAVCliente { get; set; }
         public virtual DbSet<SAVFolio> SAVFolio { get; set; }
         public virtual DbSet<SAVObra> SAVObra { get; set; }
+        public virtual DbSet<SAVFactC> SAVFactC { get; set; }
+        public virtual DbSet<SAVFactCA> SAVFactCA { get; set; }
+        public virtual DbSet<SAVFactCFD> SAVFactCFD { get; set; }
+        public virtual DbSet<SAVFactD> SAVFactD { get; set; }
+        public virtual DbSet<SAVObraServicioProg> SAVObraServicioProg { get; set; }
+        public virtual DbSet<SAVRemC> SAVRemC { get; set; }
+        public virtual DbSet<SAVRemCA> SAVRemCA { get; set; }
+        public virtual DbSet<SAVRemD> SAVRemD { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -262,6 +270,10 @@ namespace DatosLAnco
 
             modelBuilder.Entity<SAVCliente>()
                 .Property(e => e.SubCuenta2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVCliente>()
+                .Property(e => e.RegimenFiscalClave)
                 .IsUnicode(false);
 
             modelBuilder.Entity<SAVFolio>()
@@ -718,6 +730,794 @@ namespace DatosLAnco
             modelBuilder.Entity<SAVObra>()
                 .Property(e => e.SerieF)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObra>()
+                .Property(e => e.RegimenFiscalClave)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Factura)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Cliente)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.FacturarA)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.TipoCambio)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.PorcIva)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Capturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Comentario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SubTotal)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.IVA)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Estatus)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Pagado)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Saldo)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.TotalLetra)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Tipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.NCredito)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Vendedor)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Giro)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Zona)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.RFC)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Obra)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.ObraClave)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Impresiones)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CancelacionCapturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.ConsignadoA)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.ObraUbicacion)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CancelacionMotivo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.Remision)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CancelacionSustituye)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.NCargo)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SerieCFD)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.MetododePago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.NumCtaPago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CapturoCambio)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.FormadePago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.UsoCFDI)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.UUID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.FacturaSustituye)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SolicitudCancelacionSAT)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.EstatusCancelacionSAT)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.PreCancelacionCapturo)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.RetencionIVA)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.RetencionISR)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CancelacionMotivoClave)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.CancelacionUUIDRelacion)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.DescuentoIncluido)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.DescuentoIncluidoCIva)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SubTotalIva0)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SubTotalIva8)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactC>()
+                .Property(e => e.SubTotalIva16)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactCA>()
+                .Property(e => e.Factura)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCA>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactCA>()
+                .Property(e => e.Moneda)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCA>()
+                .Property(e => e.Paridad)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactCA>()
+                .Property(e => e.UUID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.Factura)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.SerieCFD)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.NombreCFD)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDSelloDigital)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDXML)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDCadenaOriginal)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDCertificado)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.FacturaTotal)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.FacturaIva)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.Capturo)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.RFC)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.EnvioFTP)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDCertificadoSAT)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.CFDSelloDigitalSAT)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.TimbradoFolioFiscal)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactCFD>()
+                .Property(e => e.TimbradoFechaHora)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Factura)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Tipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Clave)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Descripcion)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Monto)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Comentario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Cantidad)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.DescripcionAdicional)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Desc1)
+                .HasPrecision(18, 12);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Unidad)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.PorcIvaRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.PorcISRRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.DescuentoIncluido)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.DescuentoIncluidoCIva)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.SubTotal)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.Iva)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.IvaRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.ISRRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.TotalR)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.SubTotalIva0)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.SubTotalIva8)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVFactD>()
+                .Property(e => e.SubTotalIva16)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Obra)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Tipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Clave)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Cliente)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Descripcion)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Monto)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Moneda)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Comentario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Cantidad)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.DescripcionAdicional)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Unidad)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Capturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobradoTipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobradoNumero)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobradoCapturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CapturoCambio)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Referencia)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Muestreador)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.MuestreadorNombre)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobroSFormaPago)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobroSBanco)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobroSCuenta)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobroSBancoDeposito)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CobroSCapturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.Origen)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.CanceladoCapturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.PorcIvaRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVObraServicioProg>()
+                .Property(e => e.PorcISRRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Remision)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Cliente)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.FacturarA)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.TipoCambio)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.PorcIva)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Capturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Comentario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.SubTotal)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.IVA)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Estatus)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Pagado)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Saldo)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.TotalLetra)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Tipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.NCredito)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Vendedor)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Giro)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Zona)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.RFC)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Obra)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.ObraClave)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Impresiones)
+                .HasPrecision(18, 0);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.CancelacionCapturo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.ConsignadoA)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.ObraUbicacion)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.CancelacionMotivo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.FacturadoFactura)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.CancelacionSustituye)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Aux1)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.Aux2)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.MetododePago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.NumCtaPago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.FacturadoFacturaOriginal)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.CapturoCambio)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.FormadePago)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.UsoCFDI)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.RetencionIVA)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.RetencionISR)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemC>()
+                .Property(e => e.FacturaSustituye)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemCA>()
+                .Property(e => e.Remision)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemCA>()
+                .Property(e => e.Total)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemCA>()
+                .Property(e => e.Moneda)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemCA>()
+                .Property(e => e.Paridad)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemCA>()
+                .Property(e => e.UUID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Remision)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Tipo)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Clave)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Descripcion)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Monto)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Comentario)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Cantidad)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.DescripcionAdicional)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Desc1)
+                .HasPrecision(18, 12);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.Unidad)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.PorcIvaRetencion)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SAVRemD>()
+                .Property(e => e.PorcISRRetencion)
+                .HasPrecision(19, 4);
         }
     }
 }

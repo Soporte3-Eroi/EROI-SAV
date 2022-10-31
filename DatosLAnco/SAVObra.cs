@@ -455,5 +455,8 @@ namespace DatosLAnco
 
         [StringLength(100)]
         public string SerieF { get; set; }
+
+        [StringLength(255)]
+        public string RegimenFiscalClave { get; set; }
     }
 }

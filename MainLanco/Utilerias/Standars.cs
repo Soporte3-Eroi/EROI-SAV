@@ -9,17 +9,6 @@ namespace MainLanco.Utilerias
 {
     public class Standars
     {
-        public DateTime? convHoraTiempo(dynamic fecha)
-        {
-            //Console.WriteLine("hora1 " + fecha);
-
-            DateTime? d;
-            string value = fecha;
-            DateTime? fechafor = fecha == "0000-00-00" ? d = null : Convert.ToDateTime(value);
-            //Console.WriteLine("fecha " + fechafor);
-
-            return fechafor;
-        }
         public DateTime? convHoraTiempo2(dynamic fecha)
         {
             //Console.WriteLine("fecha " + fecha);
@@ -67,6 +56,12 @@ namespace MainLanco.Utilerias
                 DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00");
                 //Console.WriteLine("hora4 " + fe);
 
+                return fe;
+            }
+
+            if (fecha == "0000-00-00")
+            {
+                DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00");
                 return fe;
             }
 
