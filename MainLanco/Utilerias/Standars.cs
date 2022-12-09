@@ -9,40 +9,51 @@ namespace MainLanco.Utilerias
 {
     public class Standars
     {
-        public DateTime? convHoraTiempo(dynamic fecha)
-        {
-            //Console.WriteLine("hora1 " + fecha);
-
-            DateTime? d;
-            string value = fecha;
-            DateTime? fechafor = fecha == "0000-00-00" ? d = null : Convert.ToDateTime(value);
-            //Console.WriteLine("fecha " + fechafor);
-
-            return fechafor;
-        }
         public DateTime? convHoraTiempo2(dynamic fecha)
         {
-            Console.WriteLine("fecha " + fecha);
-
+            //fecha = "0000-00-00 00:00:00";
+            //if (0000 <= 0)
+            //{
+            //    anio = 1899;
+            //}
+            //Console.WriteLine("fecha " + fecha);
+            //fecha = "0000-00-00 00:00:00";
+            //if (0000 <= 0)
+            //    anio = 1899;
+            //if(00 <= 0)
+            //    mes = 01;
+            //if(00 <= 0;
+            //    day = 01;
             DateTime? d;
             DateTime? fechafor;
+
             DateTime Year;
             int year = 0;
+            if (fecha == "0000-00-00")
+            {
+                d = null;
+                fechafor = d;
+                //Console.WriteLine("hora2 " + fechafor);
+
+                return fechafor;
+            }
+
             if (fecha != "0000-00-00 00:00:00")
             {
                 Year = Convert.ToDateTime(fecha);
                 year = Year.Year;
             }
-
-            if (year == 1899 || fecha == "0000-00-00 00:00:00")
+            //Console.WriteLine("Imprime la fecha" + fecha);
+            if (year == 1899 || fecha == "0000-00-00 00:00:00" || fecha == "0000-00-00 00:00:00.000000")
             {
+                
                 d = null;
                 fechafor = d;
-                Console.WriteLine("hora2 " + fechafor);
+                //Console.WriteLine("hora2 " + fechafor);
 
                 return fechafor;
             }
-
+           
             DateTime? value = Convert.ToDateTime(fecha);
             fechafor = value;
 
@@ -50,17 +61,34 @@ namespace MainLanco.Utilerias
         }
         public DateTime convHoraTiempo3(dynamic fecha)
         {
-            Console.WriteLine("hora3 " + fecha);
+            
 
-            //DateTime val = Convert.ToDateTime(fecha);
+           
             if (fecha == "0000-00-00 00:00:00")
             {
+                //Console.WriteLine("hora3 " + fecha);
                 DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00");
-                Console.WriteLine("hora4 " + fe);
+               
 
                 return fe;
             }
 
+            //DateTime val = Convert.ToDateTime(fecha);
+            if (fecha == "0000-00-00 00:00:00.000000")
+            {
+               // Console.WriteLine("hora3 2" + fecha);
+                DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00.000000");
+                //Console.WriteLine("hora4 " + fe);
+
+                return fe;
+            }
+
+            if (fecha == "0000-00-00")
+            {
+                DateTime fe = Convert.ToDateTime("1899-12-30 00:00:00");
+                return fe;
+            }
+           // Console.WriteLine("Conver3");
             DateTime value = Convert.ToDateTime(fecha);
 
             //Console.WriteLine("fecha " + fechafor);
@@ -91,7 +119,17 @@ namespace MainLanco.Utilerias
         }
         public int convInt(dynamic num)
         {
-            int value = num == null ? 0 : Int32.Parse(num);
+            
+            int value = 0;
+            string numero = (string)num;
+            if (numero == null || numero == "")
+            {
+                value = 0;
+            }
+            else {
+                value = Int32.Parse(numero);
+            }
+            
             return value;
         }
     }

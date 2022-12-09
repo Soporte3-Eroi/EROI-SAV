@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DatosLAnco, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DatosLAnco\bin\Debug\DatosLAnco.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -48,6 +52,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,15 +62,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cliente\AddCliente1.cs" />
+    <Compile Include="EmpresaCheq\AddEmpresaCheq.cs" />
+    <Compile Include="EmpresaCheq\AddEmpresaCheqM.cs" />
+    <Compile Include="EmpresaCheq\AddEmpresaCheqMD.cs" />
+    <Compile Include="EmpresaCheq\AddEmpresaCheqMT.cs" />
+    <Compile Include="FactCobranza\AddFactCob.cs" />
+    <Compile Include="FactCobranza\AddFactCobM.cs" />
+    <Compile Include="FactCobranza\AddFactCobMCFD.cs" />
+    <Compile Include="FactCobranza\AddFactCobMP.cs" />
+    <Compile Include="FactCobranza\AddFactCobMPD.cs" />
+    <Compile Include="Fact\AddFactC.cs" />
+    <Compile Include="Fact\AddFactCA.cs" />
+    <Compile Include="Fact\AddFactCFD.cs" />
+    <Compile Include="Fact\AddFactD.cs" />
+    <Compile Include="ObraServicioProg\AddObraServicioProg.cs" />
+    <Compile Include="Obra\AddObra.cs" />
+    <Compile Include="Personal\AddPersonal.cs" />
+    <Compile Include="Proveedores\AddProveedores.cs" />
+    <Compile Include="Proveedores\AddProveedoresMS.cs" />
+    <Compile Include="Proveedores\AddProveedoresPagoC.cs" />
+    <Compile Include="Proveedores\AddProveedoresPagoD.cs" />
+    <Compile Include="Proveedores\AddProveedoresPagoI.cs" />
+    <Compile Include="Proveedores\AddProveedoresPagoR.cs" />
+    <Compile Include="RemCA\AddRemCA.cs" />
+    <Compile Include="RemC\AddRemC.cs" />
+    <Compile Include="Cliente\AddCliente.cs" />
     <Compile Include="Cliente\agrCliente.cs" />
     <Compile Include="Conexion\Business.cs" />
     <Compile Include="Conexion\Credenciales.cs" />
     <Compile Include="eRoi\APIeRoi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemD\AddRemD.cs" />
     <Compile Include="RNLanco\rnCliente.cs" />
+    <Compile Include="Serv01\AddServ01.cs" />
     <Compile Include="Utilerias\LogBase.cs" />
     <Compile Include="Utilerias\Logger.cs" />
+    <Compile Include="Utilerias\newLog.cs" />
     <Compile Include="Utilerias\Standars.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,14 +107,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatosLAnco\DatosLAnco.csproj">
-      <Project>{a6cd3883-d1e4-4ce8-91f8-eed4bd191224}</Project>
-      <Name>DatosLAnco</Name>
-    </ProjectReference>
+    <Folder Include="Folio\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Folio\" />
-    <Folder Include="Obra\" />
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
