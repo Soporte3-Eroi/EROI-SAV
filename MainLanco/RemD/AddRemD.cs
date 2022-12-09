@@ -22,12 +22,11 @@ namespace MainLanco
             string pass = ob.pass;
 
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-
             dynamic resApi = APIeRoi.CallApi("Get", "RemD", new { }).Result;
 
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
+             
                 try
                 {
                     DateTime? Alta = DateTime.Now; //Lineas
@@ -43,7 +42,7 @@ namespace MainLanco
                         Clave = value.Clave,
                         Descripcion = value.Descripcion,
                         Monto = value.Monto,
-                        Descuento = value.Descuento,
+                        Descuento = value.Descuento == 1 ? true : false,
                         Comentario = value.Comentario,
                         Cantidad = value.Cantidad,
                         DescripcionAdicional = value.DescripcionAdicional,
@@ -56,10 +55,7 @@ namespace MainLanco
 
                     };
 
-                    //Console.WriteLine("Paso el objeto");
-                    //dynamic json = JsonConvert.SerializeObject(Cliente);
-
-                    //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
+                    Console.WriteLine("********************************");
                     Business n = new Business();
                     int resp = n.agregaRemD(RemD);
 
@@ -67,9 +63,9 @@ namespace MainLanco
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision,
+                        Remision = value.Remision,
                         ClaveLanco = RemD.Remision,
-                        OrdenLanco = RemD.Orden
+                        Orden = RemD.Orden
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
                     newLog.GenerarTXT("RemD Actualizada" + response);
@@ -103,6 +99,7 @@ namespace MainLanco
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Error: "+e.Message);
                     newLog.GenerarTXT("Excepción en Agregar RemD: " + e.Message);
                 }
             }

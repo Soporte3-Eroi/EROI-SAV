@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{58FCC6D2-6960-49F7-AC51-073E69FBA7B6}</ProjectGuid>
+    <ProjectGuid>{403EC01C-B70D-42E5-A242-8B5692572C01}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DatosLAnco</RootNamespace>
@@ -53,16 +53,34 @@
     <Compile Include="dbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAVCliente.cs" />
+    <Compile Include="SAVEmpresaCheq.cs" />
+    <Compile Include="SAVEmpresaCheqM.cs" />
+    <Compile Include="SAVEmpresaCheqMD.cs" />
+    <Compile Include="SAVEmpresaCheqMT.cs" />
     <Compile Include="SAVFactC.cs" />
     <Compile Include="SAVFactCA.cs" />
     <Compile Include="SAVFactCFD.cs" />
+    <Compile Include="SAVFactCob.cs" />
+    <Compile Include="SAVFactCobM.cs" />
+    <Compile Include="SAVFactCobMCFD.cs" />
+    <Compile Include="SAVFactCobMP.cs" />
+    <Compile Include="SAVFactCobMPD.cs" />
     <Compile Include="SAVFactD.cs" />
     <Compile Include="SAVFolio.cs" />
+    <Compile Include="SAVNCred.cs" />
     <Compile Include="SAVObra.cs" />
     <Compile Include="SAVObraServicioProg.cs" />
+    <Compile Include="SAVPersonal.cs" />
+    <Compile Include="SAVProveedor.cs" />
+    <Compile Include="SAVProveedorMS.cs" />
+    <Compile Include="SAVProveedorPagoC.cs" />
+    <Compile Include="SAVProveedorPagoD.cs" />
+    <Compile Include="SAVProveedorPagoI.cs" />
+    <Compile Include="SAVProveedorPagoR.cs" />
     <Compile Include="SAVRemC.cs" />
     <Compile Include="SAVRemCA.cs" />
     <Compile Include="SAVRemD.cs" />
+    <Compile Include="SAVServ01.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

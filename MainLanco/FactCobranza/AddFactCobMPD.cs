@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace MainLanco
 {
-    public class AddFactCA
+    public class AddFactCobMPD
     {
-        public static void FactCA()
+        public static void FactCobMPD()
         {
             Credenciales crd = new Credenciales();
             dynamic ob = crd.credenciales();
@@ -21,70 +21,72 @@ namespace MainLanco
             string user = ob.user;
             string pass = ob.pass;
 
-            
+
 
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-            dynamic resApi = APIeRoi.CallApi("Get", "FactCA", new { }).Result;
+            dynamic resApi = APIeRoi.CallApi("Get", "FactCobMPD", new { }).Result;
 
 
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
                 try
                 {
-                  
                     DateTime? Alta = DateTime.Now; //Lineas
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
 
-                    var FactCA = new SAVFactCA()
+                    var FactCobMPD = new SAVFactCobMPD()
                     {
+                        CobroMultipleP = value.CobroMultipleP,
                         Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo,
-                        Fecha = value.Fecha== null ? utileria.convHoraTiempo2(value.Fecha) : value.Fecha, //utileria.convHoraTiempo2(value.Fecha) //
-                        //Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : utileria.convHoraTiempo2("1899-12-30 01:00:00"),
-                        ////Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : null,
-                        Total = value.Total,
-                        Moneda = value.Moneda,
-                        Paridad = value.Paridad,
-                        UUID = value.UUID
+                        Cobro = value.Cobro,
+                        Cliente = value.Cliente,
+                        Monto = value.Monto,
+                        FacturaFecha = value.FacturaFecha == null ? utileria.convHoraTiempo2(value.FacturaFecha) : value.FacturaFecha,//
+                        CobroFecha = value.CobroFecha == null ? utileria.convHoraTiempo2(value.CobroFecha) : value.CobroFecha,//
+                        SaldoFactura = value.SaldoFactura,
+                        Obra = value.Obra,
+                        NCreditoAplicar = value.NCreditoAplicar,
+                        Descuento = value.Descuento,
+                        DescuentoMonto = value.DescuentoMonto,
+                        SerieCFD = value.SerieCFD,
+                        FacturaCFD = value.FacturaCFD
 
                     };
 
                     Console.WriteLine("-------------------------------");
                     Business n = new Business();
-                    int resp = n.agregaFactCA(FactCA);
-                    
+                    int resp = n.agregaFactCobMPD(FactCobMPD);
+
                     // Actualiza en Eroi
                     var res = new
                     {
                         Res = "OK",
-                        Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo
-               
+                        CobroMultipleP = value.CobroMultipleP
+
                     };
-                
+
                     dynamic response = JsonConvert.SerializeObject(res);
-                    newLog.GenerarTXT("FactCA Actualizada" + response);
+                    newLog.GenerarTXT("FactCobMPD Actualizada" + response);
 
                     if (resp == 1)
                     {
 
-                        Console.WriteLine("FactCA registrada en DB");
+                        Console.WriteLine("FactCobMPD registrada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaFactCobMPD", res).Wait();
 
-                        Console.WriteLine("FactCA registrada en eROI");
+                        Console.WriteLine("FactCobMPD registrada en eROI");
                     }
                     else if (resp == 2)
                     {
-                        Console.WriteLine("FactCA actualizada en DB");
+                        Console.WriteLine("FactCobMPD actualizada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaFactCobMPD", res).Wait();
 
-                        Console.WriteLine("FactCA actualizado en eROI");
+                        Console.WriteLine("FactCobMPD actualizado en eROI");
                     }
                     else
                     {
@@ -93,11 +95,12 @@ namespace MainLanco
 
                         Console.WriteLine("No se registro/actualizo en eROI");
                     }
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
-                    newLog.GenerarTXT("Excepción en Agregar FactCA: " + e.Message);
+                    newLog.GenerarTXT("Excepción en Agregar FactCobMPD: " + e.Message);
                 }
             }
         }

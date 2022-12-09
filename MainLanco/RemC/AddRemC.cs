@@ -22,48 +22,23 @@ namespace MainLanco
             string pass = ob.pass;
 
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-
             dynamic resApi = APIeRoi.CallApi("Get", "RemC", new { }).Result;
-
+            
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
                 try
                 {
                     DateTime? Alta = DateTime.Now; //Lineas
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
-                    //string newId = "";
-                    //if (dto)
-                    //{
-                    //    var idRemC = db.SAVRemC.First();
-                    //    newId = (idRemC.SAVRemC + 1).ToString();
-
-                    //    //Formatear id de 9101 a 009101
-                    //    for (int i = 0; newId.Length <= 5; i++)
-                    //    {
-                    //        newId = "0" + newId;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    var idRemC = db.SAVRemC.First();
-                    //    newId = (idRemC.Cliente).ToString();
-
-                    //    //Formatear id de 9101 a 009101
-                    //    for (int i = 0; newId.Length <= 5; i++)
-                    //    {
-                    //        newId = "0" + newId;
-                    //    }
-                    //}
-
+                    
 
                     var RemC = new SAVRemC()
                     {
                         Remision = value.Remision,
                         Cliente = value.Cliente,
                         FacturarA = value.FacturarA,
-                        Fecha = value.Fecha,
+                        Fecha = value.Fecha == null ? value.Fecha : utileria.convHoraTiempo2(value.Fecha),
                         TipoCambio = value.TipoCambio,
                         PorcIva = value.PorcIva,
                         Capturo = value.Capturo,
@@ -71,13 +46,13 @@ namespace MainLanco
                         SubTotal = value.SubTotal,
                         IVA = value.IVA,
                         Total = value.Total,
-                        Procesado = value.Procesado,
+                        Procesado = value.Procesado == "1" ? true : false,
                         Estatus = value.Estatus,
                         Pagado = value.Pagado,
                         Saldo = value.Saldo,
                         Partidas = value.Partidas,
-                        FechaAlta = value.FechaAlta,
-                        UltimoCambio = value.UltimoCambio,
+                        FechaAlta = value.FechaAlta == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        UltimoCambio = value.UltimoCambio == null ? value.UltimoCambio : utileria.convHoraTiempo2(value.UltimoCambio),
                         TotalLetra = value.TotalLetra,
                         Tipo = value.Tipo,
                         NCredito = value.NCredito,
@@ -85,21 +60,21 @@ namespace MainLanco
                         Giro = value.Giro,
                         Zona = value.Zona,
                         RFC = value.RFC,
-                        ConRFC = value.ConRFC,
-                        FacturaConsolidada = value.FacturaConsolidada,
+                        ConRFC = value.ConRFC == "1" ? true : false,
+                        FacturaConsolidada = value.FacturaConsolidada == "1" ? true : false,
                         Corrida = value.Corrida,
-                        Hora = value.Hora,
+                        Hora = value.Hora == null ? value.Hora : utileria.convHoraTiempo2(value.Hora), //AQUI ESTA EL ERROR
                         Obra = value.Obra,
-                        LigaObra = value.LigaObra,
+                        LigaObra = value.LigaObra == "1" ? true : false,
                         ObraClave = value.ObraClave,
                         Impresiones = value.Impresiones,
-                        CancelacionFecha = value.CancelacionFecha,
+                        CancelacionFecha = value.CancelacionFecha == null ? value.CancelacionFecha : utileria.convHoraTiempo2(value.CancelacionFecha),
                         CancelacionCapturo = value.CancelacionCapturo,
                         ConsignadoA = value.ConsignadoA,
                         ObraUbicacion = value.ObraUbicacion,
                         CancelacionMotivo = value.CancelacionMotivo,
-                        Facturado = value.Facturado,
-                        FacturadoFecha = value.FacturadoFecha,
+                        Facturado = value.Facturado == "1" ? true : false,
+                        FacturadoFecha = value.FacturadoFecha == null ? value.FacturadoFecha : utileria.convHoraTiempo2(value.FacturadoFecha),
                         FacturadoFactura = value.FacturadoFactura,
                         CancelacionSustituye = value.CancelacionSustituye,
                         Aux1 = value.Aux1,
@@ -107,7 +82,7 @@ namespace MainLanco
                         AgendaMensajeria = value.AgendaMensajeria,
                         MetododePago = value.MetododePago,
                         NumCtaPago = value.NumCtaPago,
-                        FacturadoFechaOriginal = value.FacturadoFechaOriginal,
+                        FacturadoFechaOriginal = value.FacturadoFechaOriginal == null ? value.FacturadoFechaOriginal : utileria.convHoraTiempo2(value.FacturadoFechaOriginal),
                         FacturadoFacturaOriginal = value.FacturadoFacturaOriginal,
                         CapturoCambio = value.CapturoCambio,
                         FormadePago = value.FormadePago,
@@ -118,10 +93,8 @@ namespace MainLanco
 
                     };
 
-                    //Console.WriteLine("Paso el objeto");
-                    //dynamic json = JsonConvert.SerializeObject(Cliente);
+                    Console.WriteLine("********************************");
 
-                    //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
                     Business n = new Business();
                     int resp = n.agregaRemC(RemC);
 
@@ -129,7 +102,7 @@ namespace MainLanco
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision,
+                        Remision = value.Remision,
                         ClaveLanco = RemC.Remision
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
@@ -164,6 +137,7 @@ namespace MainLanco
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Error: "+ e.Message);
                     newLog.GenerarTXT("Excepción en Agregar RemC: " + e.Message);
                 }
             }

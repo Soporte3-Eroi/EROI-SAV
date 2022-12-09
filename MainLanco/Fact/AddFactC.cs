@@ -20,9 +20,9 @@ namespace MainLanco
             string url = ob.url;
             string user = ob.user;
             string pass = ob.pass;
-
+            
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-
+            
             dynamic resApi = APIeRoi.CallApi("Get", "FactC", new { }).Result;
 
             foreach (dynamic value in resApi.data)
@@ -34,13 +34,13 @@ namespace MainLanco
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
 
-
+                    Console.WriteLine(value.FacturaCFD);
                     var FactC = new SAVFactC()
                     {
                         Factura = value.Factura,
                         Cliente = value.Cliente,
                         FacturarA = value.FacturarA,
-                        Fecha = value.Fecha,
+                        Fecha = value.Fecha == null ? value.Fecha : utileria.convHoraTiempo2(value.Fecha),
                         TipoCambio = value.TipoCambio,
                         PorcIva = value.PorcIva,
                         Capturo = value.Capturo,
@@ -48,13 +48,13 @@ namespace MainLanco
                         SubTotal = value.SubTotal,
                         IVA = value.IVA,
                         Total = value.Total,
-                        Procesado = value.Procesado,
+                        Procesado = utileria.convBoolStr(value.Procesado),
                         Estatus = value.Estatus,
                         Pagado = value.Pagado,
                         Saldo = value.Saldo,
                         Partidas = value.Partidas,
-                        FechaAlta = value.FechaAlta,
-                        UltimoCambio = value.UltimoCambio,
+                        FechaAlta = value.FechaAlta == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        UltimoCambio = value.UltimoCambio == null ? value.UltimoCambio : utileria.convHoraTiempo2(value.UltimoCambio),
                         TotalLetra = value.TotalLetra,
                         Tipo = value.Tipo,
                         NCredito = value.NCredito,
@@ -62,47 +62,47 @@ namespace MainLanco
                         Giro = value.Giro,
                         Zona = value.Zona,
                         RFC = value.RFC,
-                        ConRFC = value.ConRFC,
-                        FacturaConsolidada = value.FacturaConsolidada,
+                        ConRFC = utileria.convBoolStr(value.ConRFC),
+                        FacturaConsolidada = utileria.convBoolStr(value.FacturaConsolidada),
                         Corrida = value.Corrida,
-                        Hora = value.Hora,
+                        Hora = value.Hora == null ? value.Hora : utileria.convHoraTiempo2(value.Hora),
                         Obra = value.Obra,
-                        LigaObra = value.LigaObra,
+                        LigaObra = utileria.convBoolStr(value.LigaObra),
                         ObraClave = value.ObraClave,
                         Impresiones = value.Impresiones,
-                        CancelacionFecha = value.CancelacionFecha,
+                        CancelacionFecha = value.CancelacionFecha == null ? value.CancelacionFecha : utileria.convHoraTiempo2(value.CancelacionFecha),
                         CancelacionCapturo = value.CancelacionCapturo,
                         ConsignadoA = value.ConsignadoA,
                         ObraUbicacion = value.ObraUbicacion,
                         CancelacionMotivo = value.CancelacionMotivo,
                         Remision = value.Remision,
-                        RemisionFecha = value.RemisionFecha,
+                        RemisionFecha = value.RemisionFecha == null ? value.RemisionFecha : utileria.convHoraTiempo2(value.RemisionFecha),
                         CancelacionSustituye = value.CancelacionSustituye,
-                        Entregada = value.Entregada,
+                        Entregada = utileria.convBoolStr(value.Entregada),
                         AgendaMensajeria = value.AgendaMensajeria,
                         AgendaMensajeriaC = value.AgendaMensajeriaC,
                         NCargo = value.NCargo,
                         SerieCFD = value.SerieCFD,
-                        FacturaCFD = value.FacturaCFD,
+                        FacturaCFD = utileria.convInt(value.FacturaCFD),
                         MetododePago = value.MetododePago,
                         NumCtaPago = value.NumCtaPago,
-                        NCreditoCompleta = value.NCreditoCompleta,
+                        NCreditoCompleta = utileria.convBoolStr(value.NCreditoCompleta),
                         Plazo = value.Plazo,
-                        FechaVencimiento = value.FechaVencimiento,
-                        FechaAltaHora = value.FechaAltaHora,
-                        UltimoCambioHora = value.UltimoCambioHora,
+                        FechaVencimiento = value.FechaVencimiento == null ? value.FechaVencimiento : utileria.convHoraTiempo2(value.FechaVencimiento),
+                        FechaAltaHora = value.FechaAltaHora == null ? value.FechaAltaHora : utileria.convHoraTiempo2(value.FechaAltaHora),
+                        UltimoCambioHora = value.UltimoCambioHora == null ? value.UltimoCambioHora : utileria.convHoraTiempo2(value.UltimoCambioHora),
                         CapturoCambio = value.CapturoCambio,
                         FormadePago = value.FormadePago,
                         UsoCFDI = value.UsoCFDI,
-                        CFDIVersion = value.CFDIVersion,
+                        CFDIVersion = utileria.convInt(value.CFDIVersion),
                         UUID = value.UUID,
                         Parcialidades = value.Parcialidades,
                         FacturaSustituye = value.FacturaSustituye,
                         SolicitudCancelacionSAT = value.SolicitudCancelacionSAT,
                         EstatusCancelacionSAT = value.EstatusCancelacionSAT,
-                        PreCancelacion = value.PreCancelacion,
+                        PreCancelacion = value.PreCancelacion == null ? value.PreCancelacion : utileria.convHoraTiempo2(value.PreCancelacion),
                         PreCancelacionCapturo = value.PreCancelacionCapturo,
-                        IntContable = value.IntContable,
+                        IntContable = utileria.convBoolStr(value.IntContable),
                         IntContablePoliza = value.IntContablePoliza,
                         IntContablePolizaC = value.IntContablePolizaC,
                         RetencionIVA = value.RetencionIVA,
@@ -115,12 +115,14 @@ namespace MainLanco
                         SubTotalIva8 = value.SubTotalIva8,
                         SubTotalIva16 = value.SubTotalIva16
 
-                    };
+                        //Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : utileria.convHoraTiempo2("1899-12-30 01:00:00"), //SE PONDRA CUANDO ESTE NOT NULL
+                        ////Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : null, //SE PONDRA CUANDO NO SEA NULL
 
-                    //Console.WriteLine("Paso el objeto");
+                    };
                     //dynamic json = JsonConvert.SerializeObject(Cliente);
 
                     //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
+                    Console.WriteLine("******************************");
                     Business n = new Business();
                     int resp = n.agregaFactC(FactC);
 
@@ -128,7 +130,7 @@ namespace MainLanco
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision
+                        Factura = value.Factura
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
                     newLog.GenerarTXT("FactC Actualizada" + response);
@@ -162,6 +164,8 @@ namespace MainLanco
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Error: "+ e.Message);
+                    Console.WriteLine("Inner: "+ e.InnerException);
                     newLog.GenerarTXT("Excepción en Agregar FactC: " + e.Message);
                 }
             }

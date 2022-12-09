@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace MainLanco
 {
-    public class AddFactCA
+    public class AddProveedoresPagoR
     {
-        public static void FactCA()
+        public static void ProveedorPagoR()
         {
             Credenciales crd = new Credenciales();
             dynamic ob = crd.credenciales();
@@ -21,70 +21,61 @@ namespace MainLanco
             string user = ob.user;
             string pass = ob.pass;
 
-            
-
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-            dynamic resApi = APIeRoi.CallApi("Get", "FactCA", new { }).Result;
-
+            dynamic resApi = APIeRoi.CallApi("Get", "ProveedorPagoR", new { }).Result;
 
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
                 try
                 {
-                  
                     DateTime? Alta = DateTime.Now; //Lineas
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
 
-                    var FactCA = new SAVFactCA()
+                    var ProveedorPagoR = new SAVProveedorPagoR()
                     {
-                        Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo,
-                        Fecha = value.Fecha== null ? utileria.convHoraTiempo2(value.Fecha) : value.Fecha, //utileria.convHoraTiempo2(value.Fecha) //
-                        //Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : utileria.convHoraTiempo2("1899-12-30 01:00:00"),
-                        ////Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : null,
-                        Total = value.Total,
-                        Moneda = value.Moneda,
-                        Paridad = value.Paridad,
-                        UUID = value.UUID
-
+                        Proveedor = value.Proveedor,
+                        Empresa = value.Empresa,
+                        Folio = value.Folio,
+                        Remision = value.Remision,
+                        Costo = value.Costo,
+                        PorcIva = value.PorcIva,
+                        Obra = value.Obra,
+                        ObraClave = value.ObraClave,
+                        Comentario = value.Comentario
                     };
-
                     Console.WriteLine("-------------------------------");
                     Business n = new Business();
-                    int resp = n.agregaFactCA(FactCA);
-                    
+                    int resp = n.agregaProveedorPagoR(ProveedorPagoR);
+
                     // Actualiza en Eroi
                     var res = new
                     {
                         Res = "OK",
-                        Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo
-               
+                        Proveedor = value.Proveedor
+
                     };
-                
                     dynamic response = JsonConvert.SerializeObject(res);
-                    newLog.GenerarTXT("FactCA Actualizada" + response);
+                    newLog.GenerarTXT("ProveedorPagoR Actualizado" + response);
 
                     if (resp == 1)
                     {
 
-                        Console.WriteLine("FactCA registrada en DB");
+                        Console.WriteLine("ProveedorPagoR registrado en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaProveedorPagoR", res).Wait();
 
-                        Console.WriteLine("FactCA registrada en eROI");
+                        Console.WriteLine("ProveedorPagoR registrado en eROI");
                     }
                     else if (resp == 2)
                     {
-                        Console.WriteLine("FactCA actualizada en DB");
+                        Console.WriteLine("ProveedorPagoR actualizado en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaProveedorPagoR", res).Wait();
 
-                        Console.WriteLine("FactCA actualizado en eROI");
+                        Console.WriteLine("ProveedorPagoR actualizado en eROI");
                     }
                     else
                     {
@@ -97,7 +88,7 @@ namespace MainLanco
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
-                    newLog.GenerarTXT("Excepción en Agregar FactCA: " + e.Message);
+                    newLog.GenerarTXT("Excepción en Agregar ProveedorPagoR: " + e.Message);
                 }
             }
         }

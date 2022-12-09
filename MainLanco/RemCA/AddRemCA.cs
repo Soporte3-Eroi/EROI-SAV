@@ -39,7 +39,7 @@ namespace MainLanco
                     {
                         Remision = value.Remision,
                         FacturaAnticipo = value.FacturaAnticipo,
-                        Fecha = value.Fecha,
+                        Fecha = value.Fecha == null ? value.Fecha : utileria.convHoraTiempo2(value.Fecha),
                         Total = value.Total,
                         Moneda = value.Moneda,
                         Paridad = value.Paridad,
@@ -47,10 +47,8 @@ namespace MainLanco
 
                     };
 
-                    //Console.WriteLine("Paso el objeto");
-                    //dynamic json = JsonConvert.SerializeObject(Cliente);
+                    Console.WriteLine(" ************************** ");
 
-                    //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
                     Business n = new Business();
                     int resp = n.agregaRemCA(RemCA);
 
@@ -58,8 +56,8 @@ namespace MainLanco
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision,
-                        ClaveLanco = RemCA.Remision
+                        Remision = value.Remision,
+                        FacturaAnticipo = RemCA.FacturaAnticipo
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
                     newLog.GenerarTXT("RemCA Actualizada" + response);
@@ -70,7 +68,7 @@ namespace MainLanco
                         Console.WriteLine("RemCA registrada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaRemC", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaRemCA", res).Wait();
 
                         Console.WriteLine("RemCA registrada en eROI");
                     }
@@ -79,7 +77,7 @@ namespace MainLanco
                         Console.WriteLine("RemCA actualizada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaRemC", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaRemCA", res).Wait();
 
                         Console.WriteLine("RemCA actualizado en eROI");
                     }

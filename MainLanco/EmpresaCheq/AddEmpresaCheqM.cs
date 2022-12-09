@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace MainLanco
 {
-    public class AddFactCA
+    public class AddEmpresaCheqM
     {
-        public static void FactCA()
+        public static void EmpresaCheqM()
         {
             Credenciales crd = new Credenciales();
             dynamic ob = crd.credenciales();
@@ -21,70 +21,77 @@ namespace MainLanco
             string user = ob.user;
             string pass = ob.pass;
 
-            
+
 
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-            dynamic resApi = APIeRoi.CallApi("Get", "FactCA", new { }).Result;
+            dynamic resApi = APIeRoi.CallApi("Get", "EmpresaCheqM", new { }).Result;
 
 
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
                 try
                 {
-                  
                     DateTime? Alta = DateTime.Now; //Lineas
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
 
-                    var FactCA = new SAVFactCA()
+                    var EmpresaCheqM = new SAVEmpresaCheqM()
                     {
-                        Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo,
-                        Fecha = value.Fecha== null ? utileria.convHoraTiempo2(value.Fecha) : value.Fecha, //utileria.convHoraTiempo2(value.Fecha) //
-                        //Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : utileria.convHoraTiempo2("1899-12-30 01:00:00"),
-                        ////Fecha = value.Fecha != null ? utileria.convHoraTiempo2(value.Fecha) : null,
-                        Total = value.Total,
-                        Moneda = value.Moneda,
-                        Paridad = value.Paridad,
-                        UUID = value.UUID
+                        Empresa = value.Empresa,
+                        Banco = value.Banco,
+                        Cuenta = value.Cuenta,
+                        Fecha = value.Fecha == null ? utileria.convHoraTiempo2(value.Fecha) : value.Fecha,
+                        Hora = value.Hora == null ? utileria.convHoraTiempo2(value.Hora) : value.Hora,
+                        Saldo = value.Saldo,
+                        Deposito = value.Deposito,
+                        DepositoSBC = value.DepositoSBC,
+                        PagoTransito = value.PagoTransito,
+                        PagoFirme = value.PagoFirme,
+                        Capturo = value.Capturo,
+                        Plaza = value.Plaza,
+                        Comentario = value.Comentario,
+                        DepositoPre = value.DepositoPre,
+                        SaldoPre = value.SaldoPre
+                        
+
 
                     };
 
                     Console.WriteLine("-------------------------------");
                     Business n = new Business();
-                    int resp = n.agregaFactCA(FactCA);
-                    
+                    int resp = n.agregaEmpresaCheqM(EmpresaCheqM);
+
                     // Actualiza en Eroi
                     var res = new
                     {
                         Res = "OK",
-                        Factura = value.Factura,
-                        FacturaAnticipo = value.FacturaAnticipo
-               
+                        Empresa = value.Empresa,
+                        Banco = value.Banco,
+                        Cuenta = value.Cuenta
+
                     };
-                
+
                     dynamic response = JsonConvert.SerializeObject(res);
-                    newLog.GenerarTXT("FactCA Actualizada" + response);
+                    newLog.GenerarTXT("EmpresaCheqM Actualizada" + response);
 
                     if (resp == 1)
                     {
 
-                        Console.WriteLine("FactCA registrada en DB");
+                        Console.WriteLine("EmpresaCheqM registrada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaEmpresaCheqM", res).Wait();
 
-                        Console.WriteLine("FactCA registrada en eROI");
+                        Console.WriteLine("EmpresaCheqM registrada en eROI");
                     }
                     else if (resp == 2)
                     {
-                        Console.WriteLine("FactCA actualizada en DB");
+                        Console.WriteLine("EmpresaCheqM actualizada en DB");
                         Console.WriteLine("------------------------");
 
-                        APIeRoi.CallApi("POST", "ActualizaFactCA", res).Wait();
+                        APIeRoi.CallApi("POST", "ActualizaEmpresaCheqM", res).Wait();
 
-                        Console.WriteLine("FactCA actualizado en eROI");
+                        Console.WriteLine("EmpresaCheqM actualizado en eROI");
                     }
                     else
                     {
@@ -97,7 +104,7 @@ namespace MainLanco
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
-                    newLog.GenerarTXT("Excepción en Agregar FactCA: " + e.Message);
+                    newLog.GenerarTXT("Excepción en Agregar EmpresaCheqM: " + e.Message);
                 }
             }
         }

@@ -22,19 +22,20 @@ namespace MainLanco
             string pass = ob.pass;
 
             dynamic resToken = APIeRoi.Login(user, pass).Result;
-
             dynamic resApi = APIeRoi.CallApi("Get", "FactD", new { }).Result;
+         
 
             foreach (dynamic value in resApi.data)
             {
-                //var context = new pruebaEntities();
+          
                 try
                 {
+                   
                     DateTime? Alta = DateTime.Now; //Lineas
                     dbModel db = new dbModel();
                     Standars utileria = new Standars();
 
-
+                
                     var FactD = new SAVFactD()
                     {
                         Factura = value.Factura,
@@ -43,7 +44,7 @@ namespace MainLanco
                         Clave = value.Clave,
                         Descripcion = value.Descripcion,
                         Monto = value.Monto,
-                        Descuento = value.Descuento,
+                        Descuento = value.Descuento == "0" ? false : true,
                         Comentario = value.Comentario,
                         Cantidad = value.Cantidad,
                         DescripcionAdicional = value.DescripcionAdicional,
@@ -65,19 +66,16 @@ namespace MainLanco
                         SubTotalIva16 = value.SubTotalIva16
 
                     };
-
-                    //Console.WriteLine("Paso el objeto");
-                    //dynamic json = JsonConvert.SerializeObject(Cliente);
-
-                    //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
+                    Console.WriteLine("*******************************");
                     Business n = new Business();
                     int resp = n.agregaFactD(FactD);
-
+                    
                     // Actualiza en Eroi
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision
+                        Factura = value.Factura,
+                        Orden = value.Orden
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
                     newLog.GenerarTXT("FactD Actualizada" + response);
@@ -111,6 +109,7 @@ namespace MainLanco
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Error: "+e.Message);
                     newLog.GenerarTXT("Excepción en Agregar FactD: " + e.Message);
                 }
             }

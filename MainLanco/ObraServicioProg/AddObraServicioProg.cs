@@ -21,9 +21,11 @@ namespace MainLanco
             string user = ob.user;
             string pass = ob.pass;
 
+           
             dynamic resToken = APIeRoi.Login(user, pass).Result;
+            dynamic resApi = APIeRoi.CallApi("Get", "ObraServicioProg", new { }).Result;
 
-            dynamic resApi = APIeRoi.CallApi("Get", "SAVObraServicioProg", new { }).Result;
+           
 
             foreach (dynamic value in resApi.data)
             {
@@ -46,34 +48,34 @@ namespace MainLanco
                         Descripcion = value.Descripcion,
                         Monto = value.Monto,
                         Moneda = value.Moneda,
-                        Descuento = value.Descuento,
-                        Comentario = value.Comentario,
+                        Descuento = value.Descuento == "1" ? true : false,
+                        Comentario = value.Comentario ,
                         Cantidad = value.Cantidad,
                         DescripcionAdicional = value.DescripcionAdicional,
                         PorcIva = value.PorcIva,
                         Desc1 = value.Desc1,
                         Unidad = value.Unidad,
                         Capturo = value.Capturo,
-                        FechaAlta = value.FechaAlta,
-                        FechaAltaHora = value.FechaAltaHora,
-                        Cobrado = value.Cobrado,
+                        FechaAlta = value.FechaAlta == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        FechaAltaHora = value.FechaAltaHora == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        Cobrado = value.Cobrado == "1" ? true : false,
                         CobradoTipo = value.CobradoTipo,
                         CobradoNumero = value.CobradoNumero,
-                        CobradoFecha = value.CobradoFecha,
+                        CobradoFecha = value.CobradoFecha == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
                         CobradoCapturo = value.CobradoCapturo,
                         CapturoCambio = value.CapturoCambio,
-                        UltimoCambio = value.UltimoCambio,
-                        UltimoCambioHora = value.UltimoCambioHora,
-                        Consolida = value.Consolida,
-                        Remisiona = value.Remisiona,
-                        Consolidacion = value.Consolidacion,
-                        Agrupacion = value.Agrupacion,
+                        UltimoCambio = value.UltimoCambio == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        UltimoCambioHora = value.UltimoCambioHora == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
+                        Consolida = value.Consolida == "1" ? true : false,
+                        Remisiona = value.Remisiona == "1" ? true : false,
+                        Consolidacion = value.Consolidacion == "1" ? true : false,
+                        Agrupacion = value.Agrupacion == "1" ? true : false,
                         Referencia = value.Referencia,
                         Muestreador = value.Muestreador,
                         MuestreadorNombre = value.MuestreadorNombre,
-                        Seleccion = value.Seleccion,
+                        Seleccion = value.Seleccion == "1" ? true : false,
                         CobroS = value.CobroS,
-                        CobroSFecha = value.CobroSFecha,
+                        CobroSFecha = value.CobroSFecha == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
                         CobroSFormaPago = value.CobroSFormaPago,
                         CobroSBanco = value.CobroSBanco,
                         CobroSCuenta = value.CobroSCuenta,
@@ -81,18 +83,15 @@ namespace MainLanco
                         CobroSCapturo = value.CobroSCapturo,
                         FolioVisita = value.FolioVisita,
                         Origen = value.Origen,
-                        Cancelado = value.Cancelado,
-                        CanceladoFecha = value.CanceladoFecha,
+                        Cancelado = value.Cancelado == "1" ? true : false,
+                        CanceladoFecha = value.CanceladoFecha == null ? value.FechaAlta : utileria.convHoraTiempo2(value.FechaAlta),
                         CanceladoCapturo = value.CanceladoCapturo,
                         PorcIvaRetencion = value.PorcIvaRetencion,
                         PorcISRRetencion = value.PorcISRRetencion
 
                 };
 
-                    //Console.WriteLine("Paso el objeto");
-                    //dynamic json = JsonConvert.SerializeObject(Cliente);
-
-                    //var item = JsonConvert.DeserializeObject<SAVCliente>(json);
+                    Console.WriteLine("**********************************");
                     Business n = new Business();
                     int resp = n.agregaObraServicioProg(ObraServicioProg);
 
@@ -100,8 +99,10 @@ namespace MainLanco
                     var res = new
                     {
                         Res = "OK",
-                        Clave = value.Remision,
-                        Foio = value.Folio
+                   
+                        Obra = value.Obra,
+                        Folio = value.Folio
+                        
                     };
                     dynamic response = JsonConvert.SerializeObject(res);
                     newLog.GenerarTXT("ObraServicioProg Actualizada" + response);
@@ -135,6 +136,7 @@ namespace MainLanco
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine("Error: "+e.Message);
                     newLog.GenerarTXT("Excepción en Agregar ObraServicioProg: " + e.Message);
                 }
             }
